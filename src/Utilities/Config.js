@@ -25,7 +25,7 @@ const config = {
 	folderName: 'webcontent/img/recipe-images',
 	authorization: authorization,
 	ingredient_count: 5,
-	recipe_count: 8,
+	recipe_count: 9,
 	stepMaxLength: 200,
 	redirectURL: 'http://localhost:3001/',
 };
