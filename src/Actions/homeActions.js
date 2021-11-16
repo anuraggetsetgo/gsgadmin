@@ -47,6 +47,18 @@ function HomeActions() {
 		// tabContent: [<LoginActions handleLoggedInStatus={handleLoggedInStatus} />, <HomeActions />],
 	});
 
+	// View Recipe
+	const [viewDetails, setViewDetails] = useState({ type: 'recipe', code: '' });
+	const [viewRecipe, setViewRecipe] = useState(false);
+	const [viewLoading, setViewLoading] = useState(true);
+	const [viewRecipeDetails, setViewRecipeDetails] = useState({ recipe: {}, mappedIngredients: [] });
+
+	// Admin Actions
+	const [adminActionDetails, setAdminActionDetails] = useState({ type: 'recipe', action: '', code: '', reason: '' });
+	const [approveDialogDetails, setApproveDialogDetails] = useState({ open: false, code: '' });
+	const [rejectDialogDetails, setRejectDialogDetails] = useState({ show: false, code: '', comment: '' });
+
+	// Use Effects
 	useEffect(() => {
 		// console.log('Authorization', authorization, 'Auth', authParam);
 
@@ -66,38 +78,6 @@ function HomeActions() {
 		}
 	}, []);
 
-	// *** Functions***
-
-	const handleLoginActions = (action, ...additionalDetails) => {
-		switch (action) {
-			case 'login':
-				setIsLoggingIn(true);
-				setTimeout(() => {
-					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
-					// let returnedURL = new URLSearchParams(window.location.search);
-					// let returnedParam = returnedURL.get('auth');
-					// localStorage.setItem('authorization', returnedParam);
-					// setLoggedInStatus(true);
-					// setIsLoggingIn(false);
-					// setToastDetails((prevState) => ({ ...prevState, open: true, message: 'Hurray!, Logged In.' }));
-				}, 3000);
-
-				break;
-			case 'logout':
-				setLoggedInStatus(false);
-
-				break;
-			default:
-		}
-	};
-
-	const handleTabChange = (e, newCurrentTabValue) => {
-		console.log(newCurrentTabValue);
-		setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
-		setPreSearchDetails((prevState) => ({ ...prevState, isSearching: true }));
-		setSearchDetails((prevState) => ({ ...prevState, status: newCurrentTabValue }));
-	};
-
 	useEffect(() => {
 		// if (loggedInStatus) {
 		setTimeout(() => {
@@ -112,6 +92,58 @@ function HomeActions() {
 		// }
 	}, [searchDetails]);
 
+	useEffect(() => {
+		if (viewDetails.code !== '') {
+			callAPI(
+				'https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/view-item',
+				'GET',
+				viewDetails,
+				handleViewRecipeResponse,
+				apiFailed,
+			);
+		}
+	}, [viewDetails]);
+
+	useEffect(() => {
+		console.log('Approving', adminActionDetails.code);
+		if (adminActionDetails.code !== '') {
+			callAPI(
+				'https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/admin',
+				'POST',
+				adminActionDetails,
+				handleAdminActionResponse,
+				apiFailed,
+			);
+		}
+	}, [adminActionDetails]);
+
+	// *** Functions***
+
+	const handleLoginActions = (action, ...additionalDetails) => {
+		switch (action) {
+			case 'login':
+				setIsLoggingIn(true);
+				setTimeout(() => {
+					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
+				}, 2000);
+
+				break;
+			case 'logout':
+				setLoggedInStatus(false);
+				// window.location.href = `${redirectURL}`;
+
+				break;
+			default:
+		}
+	};
+
+	const handleTabChange = (e, newCurrentTabValue) => {
+		// console.log(newCurrentTabValue);
+		setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
+		setPreSearchDetails((prevState) => ({ ...prevState, isSearching: true }));
+		setSearchDetails((prevState) => ({ ...prevState, status: newCurrentTabValue }));
+	};
+
 	const handleSearchRecipeResponse = (response) => {
 		// console.log(response, 'SEARCH RECIPE RESPONSE');
 		if (response.data.success) {
@@ -124,6 +156,31 @@ function HomeActions() {
 		}
 		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
 	};
+
+	const handleViewRecipeResponse = (response) => {
+		if (response.data.success) {
+			setViewRecipeDetails((prevState) => ({
+				...prevState,
+				recipe: response.data.recipe,
+				mappedIngredients: response.data.mappedIngredients,
+			}));
+			setViewLoading(false);
+		}
+		// setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
+	};
+
+	const handleAdminActionResponse = (response) => {
+		console.log(response);
+		if (response.data.success) {
+			if (adminActionDetails.action === 'approve') {
+				handleRecipeActions('close-approve-dialog');
+			} else {
+				handleRecipeActions('close-reject-dialog');
+			}
+		}
+		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
+	};
+
 	const apiFailed = (error) => {
 		let message = error.message;
 		if (error.message.includes('timeout')) {
@@ -144,11 +201,74 @@ function HomeActions() {
 				setSearchDetails((prevState) => ({
 					...prevState,
 					search: '',
-					type: 'recipe',
 					page: newPage,
-					count: recipe_count,
 				}));
 				setPreSearchDetails((prevState) => ({ ...prevState, isSearching: true, searchTerm: '' }));
+				break;
+			case 'view':
+				// setTimeout(() => {
+				let recipeCode = additionalData[0];
+				// console.log('To be virwd', recipeCode);
+				setViewRecipe(true);
+				setViewLoading(true);
+				setViewDetails((prevState) => ({ ...prevState, code: recipeCode }));
+				// }, 1000);
+				break;
+			case 'close-view':
+				setViewRecipe(false);
+				setViewLoading(true);
+				break;
+			case 'open-approve-dialog':
+				console.log('opeming');
+				let approve_recipe_code = additionalData[0];
+				console.log(approve_recipe_code);
+				setApproveDialogDetails((prevState) => ({ ...prevState, open: true, code: approve_recipe_code }));
+				break;
+			case 'close-approve-dialog':
+				console.log('closing approve dialog');
+				setApproveDialogDetails((prevState) => ({ ...prevState, open: false, code: '' }));
+				break;
+			case 'approve':
+				let recipe_code = approveDialogDetails.code;
+				console.log(recipe_code);
+				let approve_admin_action_details = { type: 'recipe', action: 'approve', code: recipe_code };
+				setAdminActionDetails(approve_admin_action_details);
+				break;
+			case 'open-reject-dialog':
+				console.log('opeming');
+				let reject_recipe_code = additionalData[0];
+				setRejectDialogDetails((prevState) => ({ ...prevState, show: true, code: reject_recipe_code }));
+				break;
+			case 'add-comment':
+				let comment = additionalData[0];
+				console.log(comment);
+				setRejectDialogDetails((prevState) => ({ ...prevState, comment: comment }));
+
+				break;
+			case 'close-reject-dialog':
+				setRejectDialogDetails((prevState) => ({ ...prevState, show: false, code: '', comment: '' }));
+				break;
+			case 'reject':
+				let reject_code = rejectDialogDetails.code;
+				let reject_comments = rejectDialogDetails.comment;
+				setAdminActionDetails((prevState) => ({
+					...prevState,
+					type: 'recipe',
+					action: 'reject',
+					code: reject_code,
+					comment: reject_comments,
+				}));
+				break;
+
+			default:
+				break;
+		}
+	};
+
+	const handleToastOperation = (action) => {
+		switch (action) {
+			case 'close':
+				setToastDetails((prevState) => ({ ...prevState, open: false, message: '' }));
 
 				break;
 
@@ -169,6 +289,13 @@ function HomeActions() {
 			paginationDetails={paginationDetails}
 			toastDetails={toastDetails}
 			handleRecipeActions={handleRecipeActions}
+			viewRecipe={viewRecipe}
+			viewLoading={viewLoading}
+			viewRecipeDetails={viewRecipeDetails}
+			approveDialogDetails={approveDialogDetails}
+			rejectDialogDetails={rejectDialogDetails}
+			toastDetails={toastDetails}
+			handleToastOperation={handleToastOperation}
 		/>
 	);
 }
