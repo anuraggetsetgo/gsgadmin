@@ -8,6 +8,7 @@ const key = {
 };
 
 function callAPI(url, type, data, success, error) {
+	console.log(key);
 	const interceptor = axios.interceptors.request.use(function (config) {
 		if (key) {
 			config.headers['Authorization'] = key.headers['Authorization'];

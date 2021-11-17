@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import HomeView from '../UI/homeView';
+import HomeView from '../UI/recipeView';
 import Config from '../Utilities/Config';
 import { callAPI } from '../Utilities/Api';
 
 function HomeActions() {
 	// CONFIG
-	const redirectURL = Config.redirectURL;
-	const authorization = Config.authorization;
 	const recipe_count = Config.recipe_count;
-	const urlParams = new URLSearchParams(window.location.search);
-	let authParam = urlParams.get('auth');
-	if (!authParam) {
-		authParam = '';
-	}
 
 	// States-----
 
-	// Login
-	const [loggedInStatus, setLoggedInStatus] = useState(false);
-	const [isLoggingIn, setIsLoggingIn] = useState(false);
 	// Recipe
 	const [recipeList, setRecipeList] = useState([]);
 	const [toastDetails, setToastDetails] = useState({ open: false, message: '' });
@@ -58,26 +48,6 @@ function HomeActions() {
 	const [approveDialogDetails, setApproveDialogDetails] = useState({ open: false, code: '' });
 	const [rejectDialogDetails, setRejectDialogDetails] = useState({ show: false, code: '', comment: '' });
 
-	// Use Effects
-	useEffect(() => {
-		// console.log('Authorization', authorization, 'Auth', authParam);
-
-		if ((authorization === '' || authParam === '') && loggedInStatus === false) {
-			console.log('Logging In...');
-			setIsLoggingIn(true);
-			setTimeout(() => {
-				window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
-			}, 3000);
-		} else {
-			console.log('Logged In :)');
-			let returnedURL = new URLSearchParams(window.location.search);
-			let returnedParam = returnedURL.get('auth');
-			localStorage.setItem('authorization', returnedParam);
-			setLoggedInStatus(true);
-			setIsLoggingIn(false);
-		}
-	}, []);
-
 	useEffect(() => {
 		// if (loggedInStatus) {
 		setTimeout(() => {
@@ -88,7 +58,7 @@ function HomeActions() {
 				handleSearchRecipeResponse,
 				apiFailed,
 			);
-		}, 2000);
+		}, 1000);
 		// }
 	}, [searchDetails]);
 
@@ -118,24 +88,6 @@ function HomeActions() {
 	}, [adminActionDetails]);
 
 	// *** Functions***
-
-	const handleLoginActions = (action, ...additionalDetails) => {
-		switch (action) {
-			case 'login':
-				setIsLoggingIn(true);
-				setTimeout(() => {
-					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
-				}, 2000);
-
-				break;
-			case 'logout':
-				setLoggedInStatus(false);
-				// window.location.href = `${redirectURL}`;
-
-				break;
-			default:
-		}
-	};
 
 	const handleTabChange = (e, newCurrentTabValue) => {
 		// console.log(newCurrentTabValue);
@@ -279,9 +231,6 @@ function HomeActions() {
 
 	return (
 		<HomeView
-			loggedInStatus={loggedInStatus}
-			isLoggingIn={isLoggingIn}
-			handleLoginActions={handleLoginActions}
 			recipeList={recipeList}
 			isSearching={preSearchDetails.isSearching}
 			tabDetails={tabDetails}

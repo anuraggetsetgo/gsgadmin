@@ -1,49 +1,72 @@
 import React, { useState, useEffect } from 'react';
-import LoginActions from './loginActions';
-import HomeActions from './homeActions';
-import { Box, Tab } from '@mui/material';
-import { TabContext, TabList, TabPanel } from '@mui/lab';
+import AdminView from '../UI/adminView';
+import Config from '../Utilities/Config';
 
 export default function Admin(props) {
-	// Communication
-	// const handleLoggedInStatus = (status) => {
-	// 	console.log(status);
-	// 	setTimeout(() => {
-	// 		handleTabChange('', '2');
-	// 	}, 1000);
-	// };
+	// States
+	const [loggedInStatus, setLoggedInStatus] = useState(false);
+	const [loggingIn, setIsLoggingIn] = useState(false);
+	const redirectURL = Config.redirectURL;
+	const viewList = Config.viewList;
+	const [menuDetails, setMenuDetails] = useState({ open: false, view: viewList[0] });
 
-	// Tab Work
-	// const [tabDetails, setTabDetails] = useState({
-	// 	tabs: ['1', '2'],
-	// 	tabLabel: ['Login', 'Console'],
-	// 	currentTab: '1',
-	// 	tabContent: [<LoginActions handleLoggedInStatus={handleLoggedInStatus} />, <HomeActions />],
-	// });
-	// const handleTabChange = (e, newCurrentTabValue) => {
-	// 	console.log(newCurrentTabValue);
-	// 	setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
-	// };
+	// Functions
+
+	const handleLoggedInStatus = (status) => {
+		setLoggedInStatus(status);
+	};
+
+	const setLoggingIn = (loggingIn) => {
+		setIsLoggingIn(loggingIn);
+	};
+
+	const handleMenuActions = (action, ...additionalData) => {
+		switch (action) {
+			case 'open':
+				setMenuDetails((prevState) => ({ ...prevState, open: true, value: '' }));
+				break;
+			case 'close':
+				setMenuDetails((prevState) => ({ ...prevState, open: false, value: '' }));
+				break;
+			case 'set-view':
+				let view = additionalData[0];
+				setMenuDetails((prevState) => ({ ...prevState, open: false, view: view }));
+
+				break;
+			default:
+				break;
+		}
+	};
+
+	const handleLoginActions = (action, ...additionalDetails) => {
+		switch (action) {
+			case 'login':
+				setIsLoggingIn(true);
+				setTimeout(() => {
+					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
+				}, 2000);
+
+				break;
+			case 'logout':
+				console.log('You just clicked on logout button tologout');
+				setLoggedInStatus(false);
+				// window.location.href = `${redirectURL}`;
+
+				break;
+			default:
+		}
+	};
 
 	return (
-		<HomeActions />
-		// <Router>
-		// <Box sx={{ width: '100%', typography: 'body1' }}>
-		// 	<TabContext value={tabDetails.currentTab}>
-		// 		<Box sx={{ borderBottom: 1, borderColor: 'blue' }}>
-		// 			<TabList onChange={handleTabChange} aria-label='lab API tabs example'>
-		// 				{tabDetails.tabs.map((tabValue, index) => (
-		// 					<Tab label={tabDetails.tabLabel[index]} value={tabValue} />
-		// 				))}
-		// 			</TabList>
-		// 		</Box>
-		// 		{tabDetails.tabs.map((tabValue, index) => (
-		// 			<TabPanel value={tabValue}>
-		// 				<React.Fragment>{tabDetails.tabContent[index]}</React.Fragment>
-		// 			</TabPanel>
-		// 		))}
-		// 	</TabContext>
-		// </Box>
-		// </Router>
+		<AdminView
+			loggedInStatus={loggedInStatus}
+			handleLoggedInStatus={handleLoggedInStatus}
+			loggingIn={loggingIn}
+			setLoggingIn={setLoggingIn}
+			handleLoginActions={handleLoginActions}
+			viewList={viewList}
+			menuDetails={menuDetails}
+			handleMenuActions={handleMenuActions}
+		/>
 	);
 }
