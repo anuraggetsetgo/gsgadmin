@@ -50,15 +50,14 @@ function HomeActions() {
 
 	useEffect(() => {
 		// if (loggedInStatus) {
-		setTimeout(() => {
-			callAPI(
-				' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/search',
-				'GET',
-				searchDetails,
-				handleSearchRecipeResponse,
-				apiFailed,
-			);
-		}, 1000);
+		console.log(searchDetails, 'search details');
+		callAPI(
+			' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/search',
+			'GET',
+			searchDetails,
+			handleSearchRecipeResponse,
+			apiFailed,
+		);
 		// }
 	}, [searchDetails]);
 
@@ -93,7 +92,7 @@ function HomeActions() {
 		// console.log(newCurrentTabValue);
 		setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
 		setPreSearchDetails((prevState) => ({ ...prevState, isSearching: true }));
-		setSearchDetails((prevState) => ({ ...prevState, status: newCurrentTabValue }));
+		setSearchDetails((prevState) => ({ ...prevState, status: Number(newCurrentTabValue) }));
 	};
 
 	const handleSearchRecipeResponse = (response) => {
@@ -210,6 +209,8 @@ function HomeActions() {
 					code: reject_code,
 					comment: reject_comments,
 				}));
+				let tempSearchDetails = searchDetails;
+				setSearchDetails(tempSearchDetails);
 				break;
 
 			default:
@@ -231,6 +232,7 @@ function HomeActions() {
 
 	return (
 		<HomeView
+			status={searchDetails.status}
 			recipeList={recipeList}
 			isSearching={preSearchDetails.isSearching}
 			tabDetails={tabDetails}

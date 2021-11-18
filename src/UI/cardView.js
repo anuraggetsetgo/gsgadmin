@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Button, Typography, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
 
 function CardView(props) {
-	const { image, name, onView, onApprove, onReject } = props;
+	const { image, name, onView, onApprove, onReject, firstname, lastname, comments } = props;
 
 	return (
 		// <Box >
@@ -42,7 +42,7 @@ function CardView(props) {
 							</Grid>
 							<Grid container justifyContent='flex-start' alignItems='center'>
 								<Typography variant='subtitle2' color='Grey'>
-									{'Shivam Prajapati'}
+									{firstname + ' ' + lastname}
 								</Typography>
 							</Grid>
 							<Grid xs={12} container style={{ marginTop: '10px' }}>
@@ -51,18 +51,29 @@ function CardView(props) {
 										View
 									</Button>
 								</Grid>
-								<Grid item container xs={4} justifyContent='center' alignItems='center'>
-									<Button variant='contained' color='primary' size='small' onClick={onApprove}>
-										Approve
-									</Button>
-								</Grid>
-								<Grid item container xs={4} justifyContent='flex-end' alignItems='center'>
-									<Button variant='contained' color='error' size='small' onClick={onReject}>
-										Reject
-									</Button>
-								</Grid>
-							</Grid>{' '}
+								{onApprove ? (
+									<Grid item container xs={4} justifyContent='center' alignItems='center'>
+										<Button variant='contained' color='primary' size='small' onClick={onApprove}>
+											Approve
+										</Button>
+									</Grid>
+								) : null}
+								{onReject ? (
+									<Grid item container xs={4} justifyContent='flex-end' alignItems='center'>
+										<Button variant='contained' color='error' size='small' onClick={onReject}>
+											Reject
+										</Button>
+									</Grid>
+								) : null}
+							</Grid>
 						</Grid>
+						{comments ? (
+							<Grid container justifyContent='flex-start' alignItems='center' style={{ padding: '5px' }}>
+								<Typography variant='caption' color='error'>
+									{comments}
+								</Typography>
+							</Grid>
+						) : null}
 					</Grid>
 				</Grid>
 			</CardActionArea>

@@ -24,8 +24,9 @@ const config = {
 	// units: ['Serving', 'Portion', 'Piece', 'gm', 'ml'],
 	folderName: 'webcontent/img/recipe-images',
 	authorization: authorization,
-	ingredient_count: 5,
+	ingredient_count: 9,
 	recipe_count: 9,
+
 	// stepMaxLength: 200,
 	redirectURL: 'http://localhost:3001/',
 	viewList: ['recipe', 'ingredient'],
