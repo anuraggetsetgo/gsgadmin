@@ -28,6 +28,7 @@ function RecipeView(props) {
 		rejectDialogDetails,
 		handleToastOperation,
 		status,
+		distinguishClicks,
 	} = props;
 
 	// Rendering
@@ -39,7 +40,7 @@ function RecipeView(props) {
 					<Tabs currentTab={tabDetails.currentTab} onChange={handleTabChange} tabDetails={tabDetails} />
 				</Grid>
 				<Grid item container justifyContent='center' alignItems='center' xs={2}>
-					<Typography variant='h6' color='primary'>
+					<Typography variant='h4' color='primary'>
 						Recipe View
 					</Typography>
 				</Grid>
@@ -59,46 +60,61 @@ function RecipeView(props) {
 								<Grid item xs={4}>
 									{status === 0 ? (
 										<CardView
+											type='recipe'
+											code={recipe.recipe_code}
 											image={recipe.recipe_image}
 											firstname={recipe.firstname}
 											lastname={recipe.lastname}
 											name={recipe.recipe_name}
-											onView={() => {
-												handleRecipeActions('view', recipe['recipe_code']);
-											}}
-											onApprove={() => {
-												handleRecipeActions('open-approve-dialog', recipe.recipe_code);
-											}}
-											onReject={() => {
-												handleRecipeActions('open-reject-dialog', recipe.recipe_code);
-											}}
-										/>
-									) : status === 1 ? (
-										<CardView
-											image={recipe.recipe_image}
-											name={recipe.recipe_name}
-											firstname={recipe.firstname}
-											lastname={recipe.lastname}
-											onView={() => {
-												handleRecipeActions('view', recipe['recipe_code']);
-											}}
+											showApproveButton={true}
+											showRejectButton={true}
+											distinguishClicks={distinguishClicks}
+											// onView={() => {
+											// 	handleRecipeActions('view', recipe['recipe_code']);
+											// }}
 											// onApprove={() => {
 											// 	handleRecipeActions('open-approve-dialog', recipe.recipe_code);
 											// }}
-											onReject={() => {
-												handleRecipeActions('open-reject-dialog', recipe.recipe_code);
-											}}
+											// onReject={() => {
+											// 	handleRecipeActions('open-reject-dialog', recipe.recipe_code);
+											// }}
 										/>
-									) : status === 2 ? (
+									) : status === 1 ? (
 										<CardView
+											type='recipe'
+											code={recipe.recipe_code}
 											image={recipe.recipe_image}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}
 											lastname={recipe.lastname}
-											onView={() => {
-												handleRecipeActions('view', recipe['recipe_code']);
-											}}
+											showApproveButton={false}
+											showRejectButton={true}
+											distinguishClicks={distinguishClicks}
+											// onView={() => {
+											// 	handleRecipeActions('view', recipe['recipe_code']);
+											// }}
+											// onApprove={() => {
+											// 	handleRecipeActions('open-approve-dialog', recipe.recipe_code);
+											// }}
+											// onReject={() => {
+											// 	handleRecipeActions('open-reject-dialog', recipe.recipe_code);
+											// }}
+										/>
+									) : status === 2 ? (
+										<CardView
+											type='recipe'
+											code={recipe.recipe_code}
+											image={recipe.recipe_image}
+											name={recipe.recipe_name}
+											firstname={recipe.firstname}
+											lastname={recipe.lastname}
 											comments={recipe.recipe_comments}
+											showApproveButton={false}
+											showRejectButton={false}
+											distinguishClicks={distinguishClicks}
+											// onView={() => {
+											// 	handleRecipeActions('view', recipe['recipe_code']);
+											// }}
 											// onApprove={() => {
 											// 	handleRecipeActions('open-approve-dialog', recipe.recipe_code);
 											// }}

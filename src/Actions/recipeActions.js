@@ -88,6 +88,16 @@ function HomeActions() {
 
 	// *** Functions***
 
+	const searchRecipies = () => {
+		callAPI(
+			' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/search',
+			'GET',
+			searchDetails,
+			handleSearchRecipeResponse,
+			apiFailed,
+		);
+	};
+
 	const handleTabChange = (e, newCurrentTabValue) => {
 		// console.log(newCurrentTabValue);
 		setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
@@ -128,6 +138,7 @@ function HomeActions() {
 			} else {
 				handleRecipeActions('close-reject-dialog');
 			}
+			searchRecipies();
 		}
 		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
 	};
@@ -138,6 +149,34 @@ function HomeActions() {
 			message = 'Request timed out. Please try again!';
 		}
 		setToastDetails((prevState) => ({ ...prevState, open: true, message: message }));
+	};
+
+	const distinguishClicks = (id, ...additionalData) => {
+		console.log(id, additionalData);
+		let recipe_code = additionalData[0];
+		switch (id) {
+			case 'view-button':
+				// ingredient_code = additionalData[0];
+				handleRecipeActions('view', recipe_code);
+				break;
+			case 'approve-button':
+				handleRecipeActions('open-approve-dialog', recipe_code);
+
+				break;
+			case 'reject-button':
+				handleRecipeActions('open-reject-dialog', recipe_code);
+
+				break;
+			case 'card':
+				handleRecipeActions('view', recipe_code);
+
+				break;
+			default:
+				handleRecipeActions('view', recipe_code);
+
+				break;
+		}
+		// console.log(event, additionalData);
 	};
 
 	const handleRecipeActions = (action, ...additionalData) => {
@@ -247,6 +286,7 @@ function HomeActions() {
 			rejectDialogDetails={rejectDialogDetails}
 			toastDetails={toastDetails}
 			handleToastOperation={handleToastOperation}
+			distinguishClicks={distinguishClicks}
 		/>
 	);
 }

@@ -25,6 +25,7 @@ function IngredientView(props) {
 		viewIngredientDetails,
 		approveDialogDetails,
 		rejectDialogDetails,
+		distinguishClicks,
 	} = props;
 	console.log(props);
 
@@ -36,7 +37,7 @@ function IngredientView(props) {
 					<Tabs currentTab={tabDetails.currentTab} onChange={handleTabChange} tabDetails={tabDetails} />
 				</Grid>
 				<Grid item container justifyContent='center' alignItems='center' xs={2}>
-					<Typography variant='h6' color='primary'>
+					<Typography variant='h4' color='primary'>
 						Ingredient View
 					</Typography>
 				</Grid>
@@ -53,48 +54,73 @@ function IngredientView(props) {
 					<Grid container direction='column'>
 						<Grid container justifyContent='flex-start' spacing={1} style={{ height: '75vh' }}>
 							{ingredientList.map((ingredient) => (
-								<Grid item xs={4}>
+								<Grid item xs={3}>
 									{status === 0 ? (
 										<CardView
-											image={''}
+											type='ingredient'
+											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
 											lastname={ingredient.lastname}
-											onView={() => {
-												handleIngredientActions('view', ingredient.ingredient_code);
-											}}
-											onApprove={() => {
-												handleIngredientActions('open-approve-dialog', ingredient.ingredient_code);
-											}}
-											onReject={() => {
-												handleIngredientActions('open-reject-dialog', ingredient.ingredient_code);
-											}}
+											showApproveButton={true}
+											showRejectButton={true}
+											distinguishClicks={distinguishClicks}
+
+											// onView={() => {
+											// 	// distinguishClicks('view-button', ingredient.ingredient_code);
+											// }}
+											// onApprove={() => {
+											// 	// distinguishClicks('approve-button', ingredient.ingredient_code);
+											// 	// handleIngredientActions('open-approve-dialog', ingredient.ingredient_code);
+											// }}
+											// onReject={() => {
+											// 	// distinguishClicks('reject-button', ingredient.ingredient_code);
+											// 	// handleIngredientActions('open-reject-dialog', ingredient.ingredient_code);
+											// }}
+											// onClick={() => {
+											// 	// distinguishClicks('card', ingredient.ingredient_code);
+											// }}
 										/>
 									) : status === 1 ? (
 										<CardView
-											image={''}
+											type='ingredient'
+											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
 											lastname={ingredient.lastname}
-											onView={() => {
-												handleIngredientActions('view', ingredient.ingredient_code);
-											}}
+											showApproveButton={false}
+											showRejectButton={true}
+											distinguishClicks={distinguishClicks}
+
+											// onView={() => {
+											// 	handleIngredientActions('view', ingredient.ingredient_code);
+											// }}
 											// onApprove={() => {
 											// handleRecipeActions('open-approve-dialog', recipe.recipe_code);
 											//  }}
-											onReject={() => {
-												handleIngredientActions('open-reject-dialog', ingredient.ingredient_code);
-											}}
+											// onReject={() => {
+											// 	handleIngredientActions('open-reject-dialog', ingredient.ingredient_code);
+											// }}
+											// distinguishClicks={distinguishClicks}
 										/>
 									) : status === 2 ? (
 										<CardView
-											image={''}
+											// image={''}
+											type='ingredient'
+											code={ingredient.ingredient_code}
+											comments={ingredient.ingredients_comments}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
 											lastname={ingredient.lastname}
-											onView={() => {
-												handleIngredientActions('view', ingredient.ingredient_code);
-											}}
+											showApproveButton={false}
+											showRejectButton={false}
+											distinguishClicks={distinguishClicks}
+
+											// onView={() => {
+											// 	handleIngredientActions('view', ingredient.ingredient_code);
+											// }}
+											// distinguishClicks={distinguishClicks}
+
 											// onApprove={() => {
 											// handleRecipeActions('open-approve-dialog', recipe.recipe_code);
 											// }}
@@ -122,7 +148,7 @@ function IngredientView(props) {
 					<Grid container alignItems='center' justifyContent='center' style={{ height: '85vh' }}>
 						<Grid item>
 							<Typography variant='subtile1' color='error'>
-								No recipes found.
+								No ingredients found.
 							</Typography>
 						</Grid>
 					</Grid>

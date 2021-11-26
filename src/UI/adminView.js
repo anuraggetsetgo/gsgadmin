@@ -22,7 +22,8 @@ import { faUserShield } from '@fortawesome/free-solid-svg-icons';
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import FoodBankIcon from '@mui/icons-material/FoodBank';
 import DiningIcon from '@mui/icons-material/Dining';
-
+import { colors } from '../services';
+import {Styles} from '../app-styles';
 function AdminView(props) {
 	// Props Destructring
 	const {
@@ -41,9 +42,9 @@ function AdminView(props) {
 	return (
 		<Box>
 			{/* Header */}
-			<Box sx={{ borderBottom: 1, width: '100%', borderColor: 'lightGrey', height: '10vh' }}>
-				<Grid container justifyContent='space-between' style={{ padding: '10px' }}>
-					<Grid item container xs={7} justifyContent='flex-start' alignItems='center'>
+			<Box sx={{ ...Styles.borderBottom1, ...Styles.borderLightGrey, height: '10vh' }}>
+				<Grid container justifyContent='space-between' style={Styles.padding10 }>
+					<Grid item container xs={10} justifyContent='flex-start' alignItems='center'>
 						<Grid item>
 							<Tooltip title='View'>
 								<IconButton
@@ -64,7 +65,7 @@ function AdminView(props) {
 					<Grid container xs={1.1} item justifyContent='flex-end' alignItems='center'>
 						<Grid container justifyContent='space-evenly' alignItems='center'>
 							<Grid item>
-								<FontAwesomeIcon icon={faUserShield} color='grey' style={{ 'font-size': '30px' }} />
+								<FontAwesomeIcon icon={faUserShield} color={colors.darkGrey} style={{ 'font-size': '30px' }} />
 							</Grid>
 							<Grid item>
 								{loggedInStatus ? (
@@ -97,7 +98,7 @@ function AdminView(props) {
 					onClose={() => {
 						handleMenuActions('close');
 					}}>
-					<List>
+					<List sx={{ width: 200 }}>
 						{viewList.map((view) => (
 							<ListItem
 								button
@@ -113,36 +114,7 @@ function AdminView(props) {
 						))}
 					</List>
 				</Drawer>
-				{/* <Menu
-					id='demo-positioned-menu'
-					aria-labelledby='demo-positioned-button'
-					// anchorEl={anchorEl}
-					open={menuDetails.open}
-					onClose={() => {
-						handleMenuActions('close');
-					}}
-					anchorOrigin={{
-						vertical: 'top',
-						horizontal: 'left',
-					}}
-					transformOrigin={{
-						vertical: 'top',
-						horizontal: 'left',
-					}}>
-					<MenuItem
-						onClick={() => {
-							handleMenuActions('set-view', 'recipe');
-						}}>
-						Recipe
-					</MenuItem>
-					<MenuItem
-						onClick={() => {
-							handleMenuActions('set-view', 'ingredient');
-						}}>
-						Ingredient
-					</MenuItem>
-				</Menu> */}
-			</Box>
+							</Box>
 
 			{/* Body */}
 			{loggedInStatus ? (

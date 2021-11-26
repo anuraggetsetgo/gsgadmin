@@ -88,6 +88,17 @@ function IngredientActions(props) {
 	}, [adminActionDetails]);
 
 	// Functions
+
+	const searchIngredients = () => {
+		callAPI(
+			' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/search',
+			'GET',
+			ingredientSearchDetails,
+			handleIngredientSearchRecipeResponse,
+			apiFailed,
+		);
+	};
+
 	const handleIngredientSearchRecipeResponse = (response) => {
 		// console.log(response);
 		if (response.data.success) {
@@ -118,6 +129,7 @@ function IngredientActions(props) {
 			} else {
 				handleIngredientActions('close-reject-dialog');
 			}
+			searchIngredients();
 		}
 		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
 	};
@@ -138,6 +150,34 @@ function IngredientActions(props) {
 			default:
 				break;
 		}
+	};
+
+	const distinguishClicks = (id, ...additionalData) => {
+		console.log(id, additionalData);
+		let ingredient_code = additionalData[0];
+		switch (id) {
+			case 'view-button':
+				// ingredient_code = additionalData[0];
+				handleIngredientActions('view', ingredient_code);
+				break;
+			case 'approve-button':
+				handleIngredientActions('open-approve-dialog', ingredient_code);
+
+				break;
+			case 'reject-button':
+				handleIngredientActions('open-reject-dialog', ingredient_code);
+
+				break;
+			case 'card':
+				handleIngredientActions('view', ingredient_code);
+
+				break;
+			default:
+				handleIngredientActions('view', ingredient_code);
+
+				break;
+		}
+		// console.log(event, additionalData);
 	};
 
 	const handleIngredientActions = (action, ...additionalData) => {
@@ -203,13 +243,13 @@ function IngredientActions(props) {
 			case 'reject':
 				let reject_code = rejectDialogDetails.code;
 				let reject_comments = rejectDialogDetails.comment;
-				// setAdminActionDetails((prevState) => ({
-				// 	...prevState,
-				// 	type: 'recipe',
-				// 	action: 'reject',
-				// 	code: reject_code,
-				// 	comment: reject_comments,
-				// }));
+				setAdminActionDetails((prevState) => ({
+					...prevState,
+					type: 'ingredient',
+					action: 'reject',
+					code: reject_code,
+					comment: reject_comments,
+				}));
 				handleIngredientActions('close-reject-dialog');
 
 				break;
@@ -238,6 +278,7 @@ function IngredientActions(props) {
 			viewIngredientDetails={viewIngredientDetails}
 			approveDialogDetails={approveDialogDetails}
 			rejectDialogDetails={rejectDialogDetails}
+			distinguishClicks={distinguishClicks}
 		/>
 	);
 }
