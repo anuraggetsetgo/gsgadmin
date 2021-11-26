@@ -6,7 +6,7 @@ let colors = {
 	yellow: '#FFDD3E',
 	blue: '#3e4e6d',
 	err: 'red',
-	grey: '#aaa',
+	grey: '#808080',
 	lightGrey:'#D3D3D3',
 	translucentBG: 'rgb(101 97 141 / 42%)',
 	red: '#FE0000',

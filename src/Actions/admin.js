@@ -43,19 +43,27 @@ export default function Admin(props) {
 			case 'login':
 				setIsLoggingIn(true);
 				setTimeout(() => {
-					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
+					redirectToLogin()
 				}, 2000);
 
 				break;
 			case 'logout':
 				console.log('You just clicked on logout button tologout');
 				setLoggedInStatus(false);
-				// window.location.href = `${redirectURL}`;
+				window.location.href = `${redirectURL}`;
 
 				break;
 			default:
 		}
 	};
+
+	const redirectToLogin = ()=>{
+		setTimeout(() => {
+					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
+
+		}, 2000);
+
+	}
 
 	return (
 		<AdminView
@@ -67,6 +75,7 @@ export default function Admin(props) {
 			viewList={viewList}
 			menuDetails={menuDetails}
 			handleMenuActions={handleMenuActions}
+			redirectToLogin={redirectToLogin}
 		/>
 	);
 }

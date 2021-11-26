@@ -8,7 +8,7 @@ import Tabs from './tabs';
 import { Grid, Typography } from '@mui/material';
 import { Pagination } from '@mui/lab';
 import Loader from 'react-loader-spinner';
-
+import {colors} from '../services'
 function IngredientView(props) {
 	const {
 		status,
@@ -37,8 +37,8 @@ function IngredientView(props) {
 					<Tabs currentTab={tabDetails.currentTab} onChange={handleTabChange} tabDetails={tabDetails} />
 				</Grid>
 				<Grid item container justifyContent='center' alignItems='center' xs={2}>
-					<Typography variant='h4' color='primary'>
-						Ingredient View
+					<Typography variant='h5' color={colors.grey}>
+						Ingredients
 					</Typography>
 				</Grid>
 			</Grid>

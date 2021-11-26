@@ -41,6 +41,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { colors } from '../services';
+import { Styles } from '../app-styles';
 
 export default function ViewRecipe(props) {
 	const {
@@ -79,8 +80,8 @@ export default function ViewRecipe(props) {
 					<DialogTitle>
 						<Grid container justifyContent='space-between'>
 							<Grid item container xs={6} justifyContent='flex-start' alignItems='center'>
-								<Typography variant='h5'>
-									<b>{name}</b>
+								<Typography variant='h5' color={colors.grey}>
+									{name}
 								</Typography>
 							</Grid>
 							<Grid item container xs={6} justifyContent='flex-end' alignItems='center'>
@@ -117,19 +118,19 @@ export default function ViewRecipe(props) {
 									<Grid item container direction='column' xs={6} alignItems='center' justifyContent='center'>
 										<Grid item container justifyContent='flex-end' alignItems='center'>
 											<Grid item xs={4} container direction='row' justifyContent='center' alignItems='center'>
-												<Grid item style={{ marginRight: '5px' }}>
+												<Grid item style={Styles.marginRight5}>
 													<FontAwesomeIcon icon={faFire} color={colors.yellow} style={{ 'font-size': '25px' }} />
 												</Grid>
 												<Grid item>
-													<Typography variant='subtitle1'>{calories + ' cal'}</Typography>
+													<Typography variant='subtitle2'>{calories + ' cal'}</Typography>
 												</Grid>
 											</Grid>
 											<Grid item xs={4} container direction='row' justifyContent='center' alignItems='center'>
-												<Grid item style={{ marginRight: '5px' }}>
+												<Grid item style={Styles.marginRight5}>
 													<FontAwesomeIcon icon={faClock} color={colors.grey} style={{ 'font-size': '25px' }} />
 												</Grid>
 												<Grid item>
-													<Typography variant='subtitle1'>{cookingtime + ' min'}</Typography>
+													<Typography variant='subtitle2'>{cookingtime + ' min'}</Typography>
 												</Grid>
 											</Grid>
 										</Grid>
@@ -138,7 +139,7 @@ export default function ViewRecipe(props) {
 											<Grid item container justifyContent='flex-end'>
 												<Grid xs={4} container direction='column'>
 													<Grid item container justifyContent='center' alignItems='center'>
-														<Grid item style={{ marginRight: '2px' }}>
+														<Grid item style={Styles.marginRight5}>
 															<FontAwesomeIcon
 																icon={faBookOpen}
 																color={colors.primary}
@@ -146,12 +147,12 @@ export default function ViewRecipe(props) {
 															/>
 														</Grid>
 														<Grid item>
-															<Typography variant='subtitle1'>{cuisine}</Typography>
+															<Typography variant='subtitle2'>{cuisine}</Typography>
 														</Grid>
 													</Grid>
 													<Grid container justifyContent='center' alignItems='center'>
 														<Grid item>
-															<Typography variant='subtitle2' color='secondary'>
+															<Typography variant='caption' color='secondary'>
 																Cuisine
 															</Typography>
 														</Grid>
@@ -159,7 +160,7 @@ export default function ViewRecipe(props) {
 												</Grid>
 												<Grid xs={4} container direction='column'>
 													<Grid item container justifyContent='center' alignItems='center'>
-														<Grid item style={{ marginRight: '2px' }}>
+														<Grid item style={Styles.marginRight5}>
 															<FontAwesomeIcon
 																icon={faUtensils}
 																color={colors.primary}
@@ -167,12 +168,12 @@ export default function ViewRecipe(props) {
 															/>
 														</Grid>
 														<Grid item>
-															<Typography variant='subtitle1'>{type}</Typography>
+															<Typography variant='subtitle2'>{type}</Typography>
 														</Grid>
 													</Grid>
 													<Grid container justifyContent='center' alignItems='center'>
 														<Grid item>
-															<Typography variant='subtitle2' color='secondary'>
+															<Typography variant='caption' color='secondary'>
 																Type
 															</Typography>
 														</Grid>
@@ -180,7 +181,7 @@ export default function ViewRecipe(props) {
 												</Grid>
 												<Grid xs={4} container direction='column'>
 													<Grid item container justifyContent='center' alignItems='center'>
-														<Grid item style={{ marginRight: '2px' }}>
+														<Grid item style={Styles.marginRight5}>
 															<FontAwesomeIcon
 																icon={faConciergeBell}
 																color={colors.primary}
@@ -188,12 +189,12 @@ export default function ViewRecipe(props) {
 															/>
 														</Grid>
 														<Grid item>
-															<Typography variant='subtitle1'>{servings}</Typography>
+															<Typography variant='subtitle2'>{servings}</Typography>
 														</Grid>
 													</Grid>
 													<Grid container justifyContent='center' alignItems='center'>
 														<Grid item>
-															<Typography variant='subtitle2' color='secondary'>
+															<Typography variant='caption' color='secondary'>
 																Servings
 															</Typography>
 														</Grid>
@@ -207,16 +208,16 @@ export default function ViewRecipe(props) {
 											<Grid item xs={12} container justifyContent='flex-end'>
 												<Grid xs={4} container direction='column'>
 													<Grid item container justifyContent='center' alignItems='center'>
-														<Grid item style={{ marginRight: '2px' }}>
+														<Grid item style={Styles.marginRight5}>
 															<FontAwesomeIcon icon={faEgg} color={colors.primary} style={{ 'font-size': '18px' }} />
 														</Grid>
 														<Grid item>
-															<Typography variant='subtitle1'>{protein + '(g)'}</Typography>
+															<Typography variant='subtitle2'>{protein + '(g)'}</Typography>
 														</Grid>
 													</Grid>
 													<Grid container justifyContent='center' alignItems='center'>
 														<Grid item>
-															<Typography variant='subtitle2' color='secondary'>
+															<Typography variant='caption' color='secondary'>
 																Protein
 															</Typography>
 														</Grid>
@@ -224,16 +225,16 @@ export default function ViewRecipe(props) {
 												</Grid>
 												<Grid xs={4} container direction='column'>
 													<Grid item container justifyContent='center' alignItems='center'>
-														<Grid item style={{ marginRight: '2px' }}>
+														<Grid item style={Styles.marginRight5}>
 															<FontAwesomeIcon icon={faCheese} color={colors.primary} style={{ 'font-size': '18px' }} />
 														</Grid>
 														<Grid item>
-															<Typography variant='subtitle1'>{fat + '(g)'}</Typography>
+															<Typography variant='subtitle2'>{fat + '(g)'}</Typography>
 														</Grid>
 													</Grid>
 													<Grid container justifyContent='center' alignItems='center'>
 														<Grid item>
-															<Typography variant='subtitle2' color='secondary'>
+															<Typography variant='caption' color='secondary'>
 																Fat
 															</Typography>
 														</Grid>
@@ -241,21 +242,20 @@ export default function ViewRecipe(props) {
 												</Grid>
 												<Grid xs={4} container direction='column'>
 													<Grid item container justifyContent='center' alignItems='center'>
-														<Grid item style={{ marginRight: '2px' }}>
+														<Grid item style={Styles.marginRight5}>
 															<FontAwesomeIcon
 																icon={faHamburger}
-																color={colors.primary}
 																color={colors.primary}
 																style={{ 'font-size': '18px' }}
 															/>
 														</Grid>
 														<Grid item>
-															<Typography variant='subtitle1'>{carbs + '(g)'}</Typography>
+															<Typography variant='subtitle2'>{carbs + '(g)'}</Typography>
 														</Grid>
 													</Grid>
 													<Grid container justifyContent='center' alignItems='center'>
 														<Grid item>
-															<Typography variant='subtitle2' color='#E91E63'>
+															<Typography variant='caption' color='secondary'>
 																Carbs
 															</Typography>
 														</Grid>
@@ -269,7 +269,7 @@ export default function ViewRecipe(props) {
 							{/* <Grid item container className='marginTop'> */}
 							<Divider className='marginTop ' />
 							{/* <//</DialogContent>Grid> */}
-							<Grid item container direction='column' className='marginTop'>
+							<Grid item container direction='column' style={{ ...Styles.marginTop10 }}>
 								<Typography variant='h6' color='secondary'>
 									Added ingredients
 								</Typography>
@@ -293,7 +293,7 @@ export default function ViewRecipe(props) {
 																color={colors.primary}
 																style={{ 'font-size': '20px' }}
 															/>
-															<Typography variant='subtitle1'>{'Quantity'}</Typography>
+															<Typography variant='caption'>{'Quantity'}</Typography>
 														</Grid>
 													</TableCell>
 													<TableCell align='center'>
@@ -303,7 +303,7 @@ export default function ViewRecipe(props) {
 															// justifyContent='center'
 															alignItems='center'>
 															<FontAwesomeIcon icon={faEgg} color={colors.primary} style={{ 'font-size': '20px' }} />
-															<Typography variant='subtitle1'>{'Protein(g)'}</Typography>
+															<Typography variant='caption'>{'Protein(g)'}</Typography>
 														</Grid>
 													</TableCell>
 													<TableCell align='center'>
@@ -313,7 +313,7 @@ export default function ViewRecipe(props) {
 															// justifyContent='center'
 															alignItems='center'>
 															<FontAwesomeIcon icon={faCheese} color={colors.primary} style={{ 'font-size': '20px' }} />
-															<Typography variant='subtitle1'>{'Fat(g)'}</Typography>
+															<Typography variant='caption'>{'Fat(g)'}</Typography>
 														</Grid>
 													</TableCell>
 													<TableCell align='center'>
@@ -327,7 +327,7 @@ export default function ViewRecipe(props) {
 																color={colors.primary}
 																style={{ 'font-size': '20px' }}
 															/>
-															<Typography variant='subtitle1'>{'Carbs(g)'}</Typography>
+															<Typography variant='caption'>{'Carbs(g)'}</Typography>
 														</Grid>
 													</TableCell>
 													<TableCell align='center'>
@@ -341,7 +341,7 @@ export default function ViewRecipe(props) {
 																color={colors.primary}
 																style={{ 'font-size': '20px' }}
 															/>
-															<Typography variant='subtitle1'>{'Alcohol(g)'}</Typography>
+															<Typography variant='caption'>{'Alcohol(g)'}</Typography>
 														</Grid>
 													</TableCell>
 													<TableCell align='center'>
@@ -355,14 +355,14 @@ export default function ViewRecipe(props) {
 																color={colors.primary}
 																style={{ 'font-size': '20px' }}
 															/>
-															<Typography variant='subtitle1'>{'Fibre(g)'}</Typography>
+															<Typography variant='caption'>{'Fibre(g)'}</Typography>
 														</Grid>
 													</TableCell>
 												</TableRow>
 											</TableHead>
 											<TableBody>
 												{ingredients.map((ingredient) => (
-													<TableRow key={ingredient.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+													<TableRow key={ingredient.name}>
 														<TableCell align='left'>{ingredient.ri_ingredient_name}</TableCell>
 														<TableCell align='center'>{ingredient.ri_quantity + ' ' + ingredient.ri_unit}</TableCell>
 
@@ -379,12 +379,12 @@ export default function ViewRecipe(props) {
 								</Grid>
 							</Grid>
 							{/* <Divider className='marginTop ' /> */}
-							<Grid item container direction='column' className='marginTop'>
+							<Grid item container direction='column' style={{ ...Styles.marginTop10 }}>
 								<Typography variant='h6' color='secondary'>
 									Recipe cooking steps
 								</Typography>
 								{JSON.parse(steps).map((step, index) => (
-									<Typography variant='subtitle1' align='left'>
+									<Typography variant='subtitle2' align='left'>
 										<b>{`Step ${index + 1}:`}</b>
 										{` ${step.step}`}
 									</Typography>

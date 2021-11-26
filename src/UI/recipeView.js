@@ -9,7 +9,8 @@ import SnackbarView from './snackbar';
 import Tabs from './tabs';
 import { Grid, Typography } from '@mui/material';
 import { Pagination } from '@mui/lab';
-
+import {Styles} from '../app-styles'
+import {colors} from '../services'
 function RecipeView(props) {
 	// Props
 	console.log(props);
@@ -40,13 +41,13 @@ function RecipeView(props) {
 					<Tabs currentTab={tabDetails.currentTab} onChange={handleTabChange} tabDetails={tabDetails} />
 				</Grid>
 				<Grid item container justifyContent='center' alignItems='center' xs={2}>
-					<Typography variant='h4' color='primary'>
-						Recipe View
+					<Typography variant='h5' color={colors.grey}>
+					Recipies
 					</Typography>
 				</Grid>
 			</Grid>
 			{/* Body */}
-			<Grid container style={{ height: '80vh', padding: '10px' }}>
+			<Grid container style={{ height: '80vh', ...Styles.padding10 }}>
 				{isSearching ? (
 					<Grid container alignItems='center' justifyContent='center' style={{ height: '50vh' }}>
 						<Grid item>

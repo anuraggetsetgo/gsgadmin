@@ -5,6 +5,7 @@ import { callAPI } from '../Utilities/Api';
 import IngredientView from '../UI/ingredientView';
 
 function IngredientActions(props) {
+	const { redirectToLogin } = props;
 	// Consts
 	const ingredient_count = Config.ingredient_count;
 
@@ -32,7 +33,11 @@ function IngredientActions(props) {
 		currentTab: '0',
 	});
 	// Pagination
-	const [paginationDetails, setPaginationDetails] = useState({ page: 1, count: '', recipe_count: ingredient_count });
+	const [paginationDetails, setPaginationDetails] = useState({
+		page: ingredientSearchDetails.page,
+		count: '',
+		recipe_count: ingredient_count,
+	});
 	// Toast
 	const [toastDetails, setToastDetails] = useState({ open: false, message: '' });
 	// View
@@ -138,7 +143,8 @@ function IngredientActions(props) {
 		// console.log(newCurrentTabValue);
 		setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
 		setPreSearchDetails((prevState) => ({ ...prevState, isSearching: true }));
-		setIngredientSearchDetails((prevState) => ({ ...prevState, status: Number(newCurrentTabValue) }));
+		setIngredientSearchDetails((prevState) => ({ ...prevState, status: Number(newCurrentTabValue), page: 1 }));
+		setPaginationDetails((prevState) => ({ ...prevState, page: 1 }));
 	};
 
 	const handleToastOperation = (action) => {
@@ -259,8 +265,15 @@ function IngredientActions(props) {
 		}
 	};
 
-	const apiFailed = () => {
-		console.log('Api Failed');
+	const apiFailed = (error) => {
+		let message = error.message;
+		if (error.message.includes('timeout')) {
+			message = 'Request timed out. Please try again!';
+		}
+		if (error.response.status == 401) {
+			redirectToLogin();
+		}
+		setToastDetails((prevState) => ({ ...prevState, open: true, message: message }));
 	};
 	return (
 		<IngredientView

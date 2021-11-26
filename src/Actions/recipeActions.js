@@ -3,7 +3,8 @@ import HomeView from '../UI/recipeView';
 import Config from '../Utilities/Config';
 import { callAPI } from '../Utilities/Api';
 
-function HomeActions() {
+function RecipeActions(props) {
+	const { redirectToLogin } = props;
 	// CONFIG
 	const recipe_count = Config.recipe_count;
 
@@ -27,7 +28,11 @@ function HomeActions() {
 	});
 
 	// Pagination
-	const [paginationDetails, setPaginationDetails] = useState({ page: 1, count: '', recipe_count: recipe_count });
+	const [paginationDetails, setPaginationDetails] = useState({
+		page: searchDetails.page,
+		count: '',
+		recipe_count: recipe_count,
+	});
 
 	// Tab Work
 	const [tabDetails, setTabDetails] = useState({
@@ -102,7 +107,7 @@ function HomeActions() {
 		// console.log(newCurrentTabValue);
 		setTabDetails((prevState) => ({ ...prevState, currentTab: newCurrentTabValue }));
 		setPreSearchDetails((prevState) => ({ ...prevState, isSearching: true }));
-		setSearchDetails((prevState) => ({ ...prevState, status: Number(newCurrentTabValue) }));
+		setSearchDetails((prevState) => ({ ...prevState, status: Number(newCurrentTabValue), page: 1 }));
 	};
 
 	const handleSearchRecipeResponse = (response) => {
@@ -147,6 +152,9 @@ function HomeActions() {
 		let message = error.message;
 		if (error.message.includes('timeout')) {
 			message = 'Request timed out. Please try again!';
+		}
+		if (error.response.status == 401) {
+			redirectToLogin();
 		}
 		setToastDetails((prevState) => ({ ...prevState, open: true, message: message }));
 	};
@@ -291,4 +299,4 @@ function HomeActions() {
 	);
 }
 
-export default HomeActions;
+export default RecipeActions;

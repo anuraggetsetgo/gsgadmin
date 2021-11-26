@@ -35,6 +35,7 @@ function AdminView(props) {
 		menuDetails,
 		handleMenuActions,
 		viewList,
+		redirectToLogin
 	} = props;
 
 	console.log(props, 'ADMIN VIEW');
@@ -57,7 +58,7 @@ function AdminView(props) {
 							</Tooltip>
 						</Grid>
 						<Grid item>
-							<Typography variant='h6' color='Grey'>
+							<Typography variant='h5' color={colors.grey}>
 								Admin console
 							</Typography>
 						</Grid>
@@ -65,7 +66,7 @@ function AdminView(props) {
 					<Grid container xs={1.1} item justifyContent='flex-end' alignItems='center'>
 						<Grid container justifyContent='space-evenly' alignItems='center'>
 							<Grid item>
-								<FontAwesomeIcon icon={faUserShield} color={colors.darkGrey} style={{ 'font-size': '30px' }} />
+								<FontAwesomeIcon icon={faUserShield} color={colors.grey} style={{ 'font-size': '30px' }} />
 							</Grid>
 							<Grid item>
 								{loggedInStatus ? (
@@ -119,9 +120,9 @@ function AdminView(props) {
 			{/* Body */}
 			{loggedInStatus ? (
 				menuDetails.view === 'recipe' ? (
-					<RecipeActions />
+					<RecipeActions redirectToLogin={redirectToLogin} />
 				) : menuDetails.view === 'ingredient' ? (
-					<IngredientActions />
+					<IngredientActions redirectToLogin={redirectToLogin} />
 				) : null
 			) : (
 				<LoginActions
@@ -129,6 +130,7 @@ function AdminView(props) {
 					handleLoggedInStatus={handleLoggedInStatus}
 					loggingIn={loggingIn}
 					setLoggingIn={setLoggingIn}
+					redirectToLogin={redirectToLogin}
 				/>
 			)}
 		</Box>

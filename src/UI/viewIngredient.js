@@ -41,7 +41,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { colors } from '../services';
-
+import {Styles} from '../app-styles'
 function ViewIngredient(props) {
 	const { open, onClose, name, isLoading, protein, fat, carbohydrate, alcohol, fibre, calories, quantity, unit } =
 		props;
@@ -63,10 +63,10 @@ function ViewIngredient(props) {
 			) : (
 				<Grid container direction='column'>
 					{/* <DialogTitle> */}
-					<Grid container justifyContent='space-between' alignItems='center' style={{ padding: '10px' }}>
+					<Grid container justifyContent='space-between' alignItems='center' style={ Styles.padding10 }>
 						<Grid item container direction='column' xs={6} justifyContent='flex-start' alignItems='flex-start'>
-							<Typography variant='h5'>{name}</Typography>
-							<Typography variant='subtitle1'>{'' + quantity + ' ' + unit}</Typography>
+							<Typography variant='h5' color={colors.grey}>{name}</Typography>
+							<Typography variant='subtitle2'>{'' + quantity + ' ' + unit}</Typography>
 						</Grid>
 						<Grid item container xs={6} justifyContent='flex-end' alignItems='center'>
 							<Tooltip title='Close'>
@@ -82,16 +82,16 @@ function ViewIngredient(props) {
 							<Grid container>
 								<Grid xs={2} container direction='column'>
 									<Grid item container justifyContent='center' alignItems='center'>
-										<Grid item style={{ marginRight: '2px' }}>
+										<Grid item style={Styles.marginRight5}>
 											<FontAwesomeIcon icon={faEgg} color={colors.primary} style={{ 'font-size': '18px' }} />
 										</Grid>
 										<Grid item>
-											<Typography variant='subtitle1'>{protein + '(g)'}</Typography>
+											<Typography variant='subtitle2'>{protein + '(g)'}</Typography>
 										</Grid>
 									</Grid>
 									<Grid container justifyContent='center' alignItems='center'>
 										<Grid item>
-											<Typography variant='subtitle2' color='secondary'>
+											<Typography variant='caption' color='secondary'>
 												Protein
 											</Typography>
 										</Grid>
@@ -99,16 +99,16 @@ function ViewIngredient(props) {
 								</Grid>
 								<Grid xs={2} container direction='column'>
 									<Grid item container justifyContent='center' alignItems='center'>
-										<Grid item style={{ marginRight: '2px' }}>
+										<Grid item style={Styles.marginRight5}>
 											<FontAwesomeIcon icon={faCheese} color={colors.primary} style={{ 'font-size': '18px' }} />
 										</Grid>
 										<Grid item>
-											<Typography variant='subtitle1'>{fat + '(g)'}</Typography>
+											<Typography variant='subtitle2'>{fat + '(g)'}</Typography>
 										</Grid>
 									</Grid>
 									<Grid container justifyContent='center' alignItems='center'>
 										<Grid item>
-											<Typography variant='subtitle2' color='secondary'>
+											<Typography variant='caption' color='secondary'>
 												Fat
 											</Typography>
 										</Grid>
@@ -116,16 +116,16 @@ function ViewIngredient(props) {
 								</Grid>
 								<Grid xs={2} container direction='column'>
 									<Grid item container justifyContent='center' alignItems='center'>
-										<Grid item style={{ marginRight: '2px' }}>
+										<Grid item style={Styles.marginRight5}>
 											<FontAwesomeIcon icon={faHamburger} color={colors.primary} style={{ 'font-size': '18px' }} />
 										</Grid>
 										<Grid item>
-											<Typography variant='subtitle1'>{carbohydrate + '(g)'}</Typography>
+											<Typography variant='subtitle2'>{carbohydrate + '(g)'}</Typography>
 										</Grid>
 									</Grid>
 									<Grid container justifyContent='center' alignItems='center'>
 										<Grid item>
-											<Typography variant='subtitle2' color='secondary'>
+											<Typography variant='caption' color='secondary'>
 												Carbohydrate
 											</Typography>
 										</Grid>
@@ -133,16 +133,16 @@ function ViewIngredient(props) {
 								</Grid>
 								<Grid xs={2} container direction='column'>
 									<Grid item container justifyContent='center' alignItems='center'>
-										<Grid item style={{ marginRight: '2px' }}>
+										<Grid item style={Styles.marginRight5}>
 											<FontAwesomeIcon icon={faWineGlass} color={colors.primary} style={{ 'font-size': '18px' }} />
 										</Grid>
 										<Grid item>
-											<Typography variant='subtitle1'>{alcohol + '(g)'}</Typography>
+											<Typography variant='subtitle2'>{alcohol + '(g)'}</Typography>
 										</Grid>
 									</Grid>
 									<Grid container justifyContent='center' alignItems='center'>
 										<Grid item>
-											<Typography variant='subtitle2' color='secondary'>
+											<Typography variant='caption' color='secondary'>
 												Alcohol
 											</Typography>
 										</Grid>
@@ -150,16 +150,16 @@ function ViewIngredient(props) {
 								</Grid>
 								<Grid xs={2} container direction='column'>
 									<Grid item container justifyContent='center' alignItems='center'>
-										<Grid item style={{ marginRight: '2px' }}>
+										<Grid item style={Styles.marginRight5}>
 											<FontAwesomeIcon icon={faAppleAlt} color={colors.primary} style={{ 'font-size': '18px' }} />
 										</Grid>
 										<Grid item>
-											<Typography variant='subtitle1'>{fibre + '(g)'}</Typography>
+											<Typography variant='subtitle2'>{fibre + '(g)'}</Typography>
 										</Grid>
 									</Grid>
 									<Grid container justifyContent='center' alignItems='center'>
 										<Grid item>
-											<Typography variant='subtitle2' color='secondary'>
+											<Typography variant='caption' color='secondary'>
 												Fibre
 											</Typography>
 										</Grid>
@@ -167,16 +167,16 @@ function ViewIngredient(props) {
 								</Grid>
 								<Grid xs={2} container direction='column'>
 									<Grid item container justifyContent='center' alignItems='center'>
-										<Grid item style={{ marginRight: '2px' }}>
+										<Grid item style={Styles.marginRight5}>
 											<FontAwesomeIcon icon={faFire} color={colors.yellow} style={{ 'font-size': '18px' }} />
 										</Grid>
 										<Grid item>
-											<Typography variant='subtitle1'>{calories + '(g)'}</Typography>
+											<Typography variant='subtitle2'>{calories + '(g)'}</Typography>
 										</Grid>
 									</Grid>
 									<Grid container justifyContent='center' alignItems='center'>
 										<Grid item>
-											<Typography variant='subtitle2' color='secondary'>
+											<Typography variant='caption' color='secondary'>
 												Calories
 											</Typography>
 										</Grid>

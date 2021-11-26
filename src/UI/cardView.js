@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Button, Typography, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
-
+import { Styles } from '../app-styles';
 function CardView(props) {
 	const {
 		image,
@@ -22,7 +22,7 @@ function CardView(props) {
 		// <Box >
 		<Card
 			id='card'
-			sx={{ border: 1, borderColor: 'lightGrey', borderRadius: '5px' }}
+			sx={{ ...Styles.border1, ...Styles.borderLightGrey, ...Styles.borderRadius2 }}
 			onClick={(e) => {
 				distinguishClicks(e.target.id, code);
 			}}>
@@ -52,14 +52,11 @@ function CardView(props) {
 						alignItems='center'
 						style={{ padding: type === 'recipe' ? '5px' : '15px' }}>
 						<Grid container>
-							<Grid container justifyContent='flex-start' alignItems='center' style={{ marginTop: '10px' }}>
-								<Typography variant='h6'>
-									{name}
-
-								</Typography>
+							<Grid container justifyContent='flex-start' alignItems='center' style={{ ...Styles.marginTop10 }}>
+								<Typography variant='h6'>{name}</Typography>
 							</Grid>
 							<Grid container justifyContent='flex-start' alignItems='center'>
-								<Typography variant='subtitle1' color='Grey'>
+								<Typography variant='subtitle2' color='Grey'>
 									{firstname + ' ' + lastname}
 								</Typography>
 							</Grid>
@@ -105,9 +102,9 @@ function CardView(props) {
 								) : null}
 							</Grid>
 						</Grid>
-						<Grid container justifyContent='flex-start' alignItems='center' style={{ padding: '5px' }}>
+						<Grid container justifyContent='flex-start' alignItems='center'>
 							{comments ? (
-								<Typography variant='subtitle2' color='error'>
+								<Typography variant='caption' color='error' align='left'>
 									{comments}
 								</Typography>
 							) : null}

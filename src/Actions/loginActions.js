@@ -5,7 +5,7 @@ import Config from '../Utilities/Config';
 export default function LoginActions(props) {
 	console.log(props, 'LOGIN ACTION');
 	// Props
-	const { handleLoggedInStatus, loggedInStatus, loggingIn, setLoggingIn } = props;
+	const { handleLoggedInStatus, loggedInStatus, loggingIn, setLoggingIn, redirectToLogin } = props;
 	// URL and Params
 	const redirectURL = Config.redirectURL;
 	const authorization = Config.authorization;
@@ -20,25 +20,16 @@ export default function LoginActions(props) {
 	// const [isLoggingIn, setIsLoggingIn] = useState(LoggingIn);
 
 	useEffect(() => {
-		console.log(
-			'Authorization',
-			authorization,
-			'Auth',
-			authParam,
-			loggedInStatus,
-			redirectURL,
-			authorization === '',
-			authParam === '',
-			loggedInStatus === false,
-		);
-
+		
 		// Just Loaded
 		if ((authorization === '' || authParam === '') && loggedInStatus === false) {
 			console.log('Just loaded Logging In...');
 			setLoggingIn(true);
 			setTimeout(() => {
-				window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
-			}, 2000);
+				// redirectToLogin()	
+						window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
+
+					}, 2000);
 		} else {
 			console.log(' Returned after Logging in :)');
 			let returnedURL = new URLSearchParams(window.location.search);
