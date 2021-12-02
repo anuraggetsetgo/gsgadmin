@@ -43,8 +43,8 @@ export default function Admin(props) {
 			case 'login':
 				setIsLoggingIn(true);
 				setTimeout(() => {
-					redirectToLogin()
-				}, 2000);
+					redirectToLogin();
+				}, 1000);
 
 				break;
 			case 'logout':
@@ -57,13 +57,11 @@ export default function Admin(props) {
 		}
 	};
 
-	const redirectToLogin = ()=>{
+	const redirectToLogin = () => {
 		setTimeout(() => {
-					window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
-
+			window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
 		}, 2000);
-
-	}
+	};
 
 	return (
 		<AdminView

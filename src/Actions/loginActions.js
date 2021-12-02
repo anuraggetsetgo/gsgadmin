@@ -1,3 +1,4 @@
+import { skeletonClasses } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import LoginView from '../UI/loginView';
 import Config from '../Utilities/Config';
@@ -20,25 +21,27 @@ export default function LoginActions(props) {
 	// const [isLoggingIn, setIsLoggingIn] = useState(LoggingIn);
 
 	useEffect(() => {
-		
 		// Just Loaded
 		if ((authorization === '' || authParam === '') && loggedInStatus === false) {
-			console.log('Just loaded Logging In...');
+			console.log('Just loaded Logging In...with auth', authorization, 'AURTH PARAM', authParam);
 			setLoggingIn(true);
 			setTimeout(() => {
-				// redirectToLogin()	
-						window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
-
-					}, 2000);
+				redirectToLogin();
+				// window.location.href = `https://sign-up-auth.s3.ap-south-1.amazonaws.com/index.html?redirect=${redirectURL}`;
+			}, 2000);
 		} else {
 			console.log(' Returned after Logging in :)');
 			let returnedURL = new URLSearchParams(window.location.search);
 			let returnedParam = returnedURL.get('auth');
-			console.log(returnedParam, 'RETURNED AUTH');
 			localStorage.setItem('authorization', returnedParam);
+
+			// setLocalStorage(returnedParam);
 			handleLoggedInStatus(true);
 			setLoggingIn(false);
 		}
+		// async function setLocalStorage(returnedParam) {
+		// 	console.log(returnedParam, 'RETURNED AUTH');
+		// }
 		// Returned afterlogin
 		// if ((authorization !== '' || authParam !== '') && loggedInStatus === false) {
 		// }

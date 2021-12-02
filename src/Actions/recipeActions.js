@@ -120,7 +120,7 @@ function RecipeActions(props) {
 			}));
 			setPreSearchDetails((prevState) => ({ ...prevState, isSearching: false, searchTerm: '' }));
 		}
-		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
+		// setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
 	};
 
 	const handleViewRecipeResponse = (response) => {
