@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import HomeView from '../UI/recipeView';
 import Config from '../Utilities/Config';
 import { callAPI } from '../Utilities/Api';
-
+// API FUNCTIONS
+import { viewRecipeAPI } from '../GSGAPI/admintool.api';
+import { approveRecipeAPI } from '../GSGAPI/admintool.api';
+import { rejectRecipeAPI } from '../GSGAPI/admintool.api';
 function RecipeActions(props) {
 	const { redirectToLogin } = props;
 	// CONFIG
@@ -25,6 +28,7 @@ function RecipeActions(props) {
 		count: Config.recipe_count,
 		userId: 18,
 		status: 0,
+		metaData: false,
 	});
 
 	// Pagination
@@ -43,13 +47,15 @@ function RecipeActions(props) {
 	});
 
 	// View Recipe
-	const [viewDetails, setViewDetails] = useState({ type: 'recipe', code: '' });
+	const [viewDetails, setViewDetails] = useState({ code: '' });
 	const [viewRecipe, setViewRecipe] = useState(false);
 	const [viewLoading, setViewLoading] = useState(true);
 	const [viewRecipeDetails, setViewRecipeDetails] = useState({ recipe: {}, mappedIngredients: [] });
 
 	// Admin Actions
 	const [adminActionDetails, setAdminActionDetails] = useState({ type: 'recipe', action: '', code: '', reason: '' });
+	const [approveRecipeAPIData, setApproveRecipeAPIData] = useState({ recipe_code: '' });
+	const [rejectRecipeAPIData, setRejectRecipeAPIData] = useState({ recipe_code: '', recipe_comments: '' });
 	const [approveDialogDetails, setApproveDialogDetails] = useState({ open: false, code: '' });
 	const [rejectDialogDetails, setRejectDialogDetails] = useState({ show: false, code: '', comment: '' });
 
@@ -68,15 +74,21 @@ function RecipeActions(props) {
 
 	useEffect(() => {
 		if (viewDetails.code !== '') {
-			callAPI(
-				'https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/view-item',
-				'GET',
-				viewDetails,
-				handleViewRecipeResponse,
-				apiFailed,
-			);
+			viewRecipeAPI(viewDetails, handleViewRecipeResponse, apiFailed);
 		}
 	}, [viewDetails]);
+
+	useEffect(() => {
+		if (approveRecipeAPIData.recipe_code !== '') {
+			approveRecipeAPI(approveRecipeAPIData, handleApproveRecipeAPIResponse, apiFailed);
+		}
+	}, [approveRecipeAPIData]);
+
+	useEffect(() => {
+		if (rejectRecipeAPIData.recipe_code !== '') {
+			rejectRecipeAPI(rejectRecipeAPIData, handleRejectRecipeAPIResponse, apiFailed);
+		}
+	}, [rejectRecipeAPIData]);
 
 	useEffect(() => {
 		console.log('Approving', adminActionDetails.code);
@@ -148,6 +160,21 @@ function RecipeActions(props) {
 		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
 	};
 
+	const handleApproveRecipeAPIResponse = (response) => {
+		if (response.data.success) {
+			handleRecipeActions('close-approve-dialog');
+			searchRecipies();
+		}
+		setToastDetails((prevState) => ({ ...prevState, open: true, message: response.data.message }));
+	};
+
+	const handleRejectRecipeAPIResponse = (response) => {
+		if (response.data.success) {
+			handleRecipeActions('close-reject-dialog');
+			searchRecipies();
+		}
+	};
+
 	const apiFailed = (error) => {
 		let message = error.message;
 		if (error.message.includes('timeout')) {
@@ -217,29 +244,25 @@ function RecipeActions(props) {
 				setViewLoading(true);
 				break;
 			case 'open-approve-dialog':
-				console.log('opeming');
 				let approve_recipe_code = additionalData[0];
-				console.log(approve_recipe_code);
 				setApproveDialogDetails((prevState) => ({ ...prevState, open: true, code: approve_recipe_code }));
 				break;
 			case 'close-approve-dialog':
-				console.log('closing approve dialog');
 				setApproveDialogDetails((prevState) => ({ ...prevState, open: false, code: '' }));
 				break;
 			case 'approve':
 				let recipe_code = approveDialogDetails.code;
-				console.log(recipe_code);
-				let approve_admin_action_details = { type: 'recipe', action: 'approve', code: recipe_code };
-				setAdminActionDetails(approve_admin_action_details);
+				// console.log(recipe_code);
+				// let approve_admin_action_details = { type: 'recipe', action: 'approve', code: recipe_code };
+				// setAdminActionDetails(approve_admin_action_details);
+				setApproveRecipeAPIData({ recipe_code: recipe_code });
 				break;
 			case 'open-reject-dialog':
-				console.log('opeming');
 				let reject_recipe_code = additionalData[0];
 				setRejectDialogDetails((prevState) => ({ ...prevState, show: true, code: reject_recipe_code }));
 				break;
 			case 'add-comment':
 				let comment = additionalData[0];
-				console.log(comment);
 				setRejectDialogDetails((prevState) => ({ ...prevState, comment: comment }));
 
 				break;
@@ -249,15 +272,13 @@ function RecipeActions(props) {
 			case 'reject':
 				let reject_code = rejectDialogDetails.code;
 				let reject_comments = rejectDialogDetails.comment;
-				setAdminActionDetails((prevState) => ({
+				setRejectRecipeAPIData((prevState) => ({
 					...prevState,
-					type: 'recipe',
-					action: 'reject',
-					code: reject_code,
-					comment: reject_comments,
+					recipe_code: reject_code,
+					recipe_comments: reject_comments,
 				}));
-				let tempSearchDetails = searchDetails;
-				setSearchDetails(tempSearchDetails);
+				// let tempSearchDetails = searchDetails;
+				// setSearchDetails(tempSearchDetails);
 				break;
 
 			default:

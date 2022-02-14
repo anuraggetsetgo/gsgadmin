@@ -61,10 +61,11 @@ function CardView(props) {
 								</Typography>
 							</Grid>
 							<Grid xs={12} container style={{ marginTop: '10px' }} justifyContent='flex-start'>
-								<Grid item container xs={4} justifyContent='flex-start' alignItems='center'>
+								<Grid item style={{ padding: '5px 5px 5px 0px' }}>
 									<Button
 										id='view-button'
-										variant='outlined'
+										variant='contained'
+										color='primary'
 										size='small'
 										onClick={(e) => {
 											distinguishClicks(e.target.id, code);
@@ -73,21 +74,22 @@ function CardView(props) {
 									</Button>
 								</Grid>
 								{showApproveButton ? (
-									<Grid item container xs={4} justifyContent='center' alignItems='center'>
+									<Grid item style={{ ...Styles.padding5 }}>
 										<Button
 											id='approve-button'
 											variant='contained'
-											color='primary'
+											color='success'
 											size='small'
 											onClick={(e) => {
 												distinguishClicks(e.target.id, code);
-											}}>
+											}}
+											style={{ ...Styles.padding5 }}>
 											Approve
 										</Button>
 									</Grid>
 								) : null}
 								{showRejectButton ? (
-									<Grid item container xs={4} justifyContent='flex-end' alignItems='center'>
+									<Grid item style={{ ...Styles.padding5 }}>
 										<Button
 											id='reject-button'
 											variant='contained'
