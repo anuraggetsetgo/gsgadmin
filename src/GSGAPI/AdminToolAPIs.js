@@ -3,7 +3,7 @@
 import { callAPI } from '../Utilities/api';
 
 // Search Ingredients
-export function searchIngredientsAPICall(data, successCallback, failureCallback) {
+export function searchIngredientsAPI(data, successCallback, failureCallback) {
 	callAPI(
 		' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/search-ingredient',
 		'GET',
@@ -13,9 +13,17 @@ export function searchIngredientsAPICall(data, successCallback, failureCallback)
 	);
 }
 // Search Recipes
-
-// View Ingredient
-export function viewIngredientAPI(data, successCallback, failureCallback) {
+export function searchRecipeAPI(data, successCallback, failureCallback) {
+	callAPI(
+		'https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/search-recipe',
+		'GET',
+		data,
+		successCallback,
+		failureCallback,
+	);
+}
+// Fetch Ingredient
+export function fetchIngredientAPI(data, successCallback, failureCallback) {
 	callAPI(
 		' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/view-ingredient',
 		'GET',
@@ -25,7 +33,7 @@ export function viewIngredientAPI(data, successCallback, failureCallback) {
 	);
 }
 // View Recipes
-export function viewRecipeAPI(data, successCallback, failureCallback) {
+export function fetchRecipeAPI(data, successCallback, failureCallback) {
 	callAPI(
 		' https://otehqisucc.execute-api.ap-south-1.amazonaws.com/dev/view-recipe',
 		'GET',

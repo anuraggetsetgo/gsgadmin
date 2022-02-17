@@ -6,7 +6,13 @@ import { Pagination } from '@mui/lab';
 // COMPONENTS
 import StatusTabs from '../Components/StatusTabs';
 import SpinnerLoader from '../Components/SpinnerLoader';
+import Snackbar from '../Components/Snackbar';
 import FoodCard from '../Components/FoodCard';
+import IngredientPreview from '../Components/IngredientPreview';
+import ApproveDialog from '../Components/ApproveDialog';
+import RejectDialog from '../Components/RejectDialog';
+import NotFoundMessage from '../Components/NotFoundMessage';
+
 // STYLES & COLORS
 import { Styles } from '../app-styles';
 import { colors } from '../Utilities/services';
@@ -23,8 +29,21 @@ function IngredientScreens(props) {
 		handleStatusTabChange,
 		//  Pagination
 		paginationDetails,
+		handlePageUpdate,
 		// Distinguish Clicks
-		distinguishClicks,
+		distinguishCardClicks,
+		// Ingredient Preview
+		ingredientPreviewDetails,
+		handleIngredientPreviewActions,
+		// Approve Ingredient
+		apporveIngredientDetails,
+		handleIngredientApproveActions,
+		// Reject Ingredient
+		rejectIngredientDetails,
+		handleIngredientRejectActions,
+		// Snackbar
+		snackbarDetails,
+		closeSnackbar,
 	} = props;
 	return (
 		<Grid container direction='column' justifyContent='flex-start' alignItems='center' style={{ height: '90vh' }}>
@@ -64,7 +83,7 @@ function IngredientScreens(props) {
 											lastname={ingredient.lastname}
 											showApproveButton={true}
 											showRejectButton={true}
-											distinguishClicks={distinguishClicks}
+											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : currentTab === '1' ? (
 										// Pending
@@ -76,7 +95,7 @@ function IngredientScreens(props) {
 											lastname={ingredient.lastname}
 											showApproveButton={false}
 											showRejectButton={true}
-											distinguishClicks={distinguishClicks}
+											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : currentTab === '2' ? (
 										// Rejected
@@ -89,7 +108,7 @@ function IngredientScreens(props) {
 											lastname={ingredient.lastname}
 											showApproveButton={false}
 											showRejectButton={false}
-											distinguishClicks={distinguishClicks}
+											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : null}
 								</Grid>
@@ -100,22 +119,82 @@ function IngredientScreens(props) {
 								count={paginationDetails.count}
 								page={paginationDetails.page}
 								onChange={(e, value) => {
-									// handleIngredientActions('page-update', value);
+									handlePageUpdate(value);
 								}}
 							/>
 						</Grid>
 					</Grid>
 				) : (
-					// </Grid>
-					<Grid container alignItems='center' justifyContent='center' style={{ height: '85vh' }}>
-						<Grid item>
-							<Typography variant='subtile1' color='error'>
-								No ingredients found.
-							</Typography>
-						</Grid>
-					</Grid>
+					<NotFoundMessage message={'No ingredients found your matching. Please try again!'} />
 				)}
 			</Grid>
+			{/* Ingredient Preview */}
+			<IngredientPreview
+				open={ingredientPreviewDetails.open}
+				isLoading={ingredientPreviewDetails.isLoading}
+				ingredient={ingredientPreviewDetails.ingredient}
+				onClose={() => {
+					handleIngredientPreviewActions('close-preview');
+				}}
+				name={
+					ingredientPreviewDetails['ingredient']['ingredient_name']
+						? ingredientPreviewDetails['ingredient']['ingredient_name']
+						: ''
+				}
+				protein={
+					ingredientPreviewDetails['ingredient']['protein'] ? ingredientPreviewDetails['ingredient']['protein'] : 0
+				}
+				fat={ingredientPreviewDetails['ingredient']['fat'] ? ingredientPreviewDetails['ingredient']['fat'] : 0}
+				carbs={
+					ingredientPreviewDetails['ingredient']['carbohydrate']
+						? ingredientPreviewDetails['ingredient']['carbohydrate']
+						: 0
+				}
+				alcohol={
+					ingredientPreviewDetails['ingredient']['calories'] ? ingredientPreviewDetails['ingredient']['calories'] : 0
+				}
+				fibre={ingredientPreviewDetails['ingredient']['fibre'] ? ingredientPreviewDetails['ingredient']['fibre'] : 0}
+				calories={
+					ingredientPreviewDetails['ingredient']['calories'] ? ingredientPreviewDetails['ingredient']['calories'] : 0
+				}
+				quantity={
+					ingredientPreviewDetails['ingredient']['ingredient_quantity']
+						? ingredientPreviewDetails['ingredient']['ingredient_quantity']
+						: ''
+				}
+				unit={
+					ingredientPreviewDetails['ingredient']['ingredient_unit']
+						? ingredientPreviewDetails['ingredient']['ingredient_unit']
+						: ''
+				}
+			/>
+			{/* Approve Ingredient */}
+			<ApproveDialog
+				open={apporveIngredientDetails['openDialog']}
+				onApporve={() => {
+					handleIngredientApproveActions('approve-ingredient');
+				}}
+				onClose={() => {
+					handleIngredientApproveActions('close-approve-dialog');
+				}}
+				text='Are you sure want to approve this ingredient?'
+			/>
+			{/* Reject Ingredient */}
+			<RejectDialog
+				open={rejectIngredientDetails['openDialog']}
+				text={'Are you sure want to reject this ingredient?'}
+				onComment={(e) => {
+					handleIngredientRejectActions('add-comment', e.target.value);
+				}}
+				onReject={() => {
+					handleIngredientRejectActions('reject-ingredient');
+				}}
+				onDeclineReject={() => {
+					handleIngredientRejectActions('close-reject-dialog');
+				}}
+			/>
+			{/* Snackbar */}
+			<Snackbar open={snackbarDetails.open} onClose={closeSnackbar} message={snackbarDetails.message} />
 		</Grid>
 	);
 }

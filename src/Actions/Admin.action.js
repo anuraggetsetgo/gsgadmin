@@ -11,7 +11,7 @@ function AdminActions() {
 	// REQUIRED STATES
 	// ----------------
 	// MENU
-	const [menuDetails, setMenuDetails] = useState({ open: false, menu: menuList[2] });
+	const [menuDetails, setMenuDetails] = useState({ open: false, menu: menuList[1] });
 	// ------------------
 	// HANDLER FUNCTIONS
 	// ------------------

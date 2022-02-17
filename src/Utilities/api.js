@@ -1,13 +1,15 @@
 import Config from '../Utilities/config';
 import axios from 'axios';
+// Authorization Token
+const Authorization = localStorage.getItem('user_token');
 
 const key = {
 	headers: {
-		Authorization: Config.authorization,
+		Authorization: Authorization,
 	},
 };
 
-function callAPI(url, type, data, success, error) {
+function callAPI(url, type, data, successCallback, errorCallback) {
 	const interceptor = axios.interceptors.request.use(function (config) {
 		if (key) {
 			config.headers['Authorization'] = key.headers['Authorization'];
@@ -15,6 +17,7 @@ function callAPI(url, type, data, success, error) {
 		return config;
 	});
 
+	// Default timeout we have set for 5 seconds
 	axios.defaults.timeout = 5000;
 
 	switch (type) {
@@ -22,10 +25,10 @@ function callAPI(url, type, data, success, error) {
 			axios
 				.get(url, { params: data })
 				.then((data) => {
-					success(data);
+					successCallback(data);
 				})
 				.catch((err) => {
-					error(err);
+					handleAPIError(err);
 				});
 			break;
 
@@ -33,15 +36,26 @@ function callAPI(url, type, data, success, error) {
 			axios
 				.post(url, data)
 				.then((data) => {
-					success(data);
+					successCallback(data);
 				})
 				.catch((err) => {
-					error(err);
+					handleAPIError(err);
 				});
 			break;
 		default:
 			return;
 	}
+
+	// Handle API Error
+
+	const handleAPIError = (err) => {
+		if (err.response.status == 401) {
+			alert('Token expired.');
+		} else {
+			errorCallback(err);
+		}
+	};
+
 	axios.interceptors.request.eject(interceptor); //Cleanup up old config AV
 }
 
