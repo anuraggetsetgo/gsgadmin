@@ -22,7 +22,7 @@ function IngredientActions() {
 		count: ingredient_count,
 		page: 1,
 		search: '',
-		status: 0,
+		status: 1,
 	});
 	// Fetch Ingredient API Data
 	const [fetchIngredientAPIData, setFetchIngredientAPIData] = useState({ code: '' });
@@ -272,7 +272,7 @@ function IngredientActions() {
 	const apiFailed = (error) => {
 		let message = error.message ? error.message : 'Something went wrong. Please try again!';
 		if (error.message.includes('timeout')) {
-			message = 'Request timed out. Please try again!';
+			message = 'It took too long to respond. Please try again!';
 		}
 		showSnackbar(message);
 	};

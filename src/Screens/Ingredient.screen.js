@@ -7,7 +7,9 @@ import { Pagination } from '@mui/lab';
 import StatusTabs from '../Components/StatusTabs';
 import SpinnerLoader from '../Components/SpinnerLoader';
 import Snackbar from '../Components/Snackbar';
-import FoodCard from '../Components/FoodCard';
+import PendingFoodCard from '../Components/PendingFoodCard';
+import ApprovedFoodCard from '../Components/ApprovedFoodCard';
+import RejectedFoodCard from '../Components/RejectedFoodCard';
 import IngredientPreview from '../Components/IngredientPreview';
 import ApproveDialog from '../Components/ApproveDialog';
 import RejectDialog from '../Components/RejectDialog';
@@ -75,39 +77,36 @@ function IngredientScreens(props) {
 								<Grid item xs={3} key={`${ingredient.ingredient_name}-${index}`}>
 									{currentTab === '0' ? (
 										// Pending
-										<FoodCard
+										<PendingFoodCard
 											withImage={false}
+											image={''}
 											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
 											lastname={ingredient.lastname}
-											showApproveButton={true}
-											showRejectButton={true}
 											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : currentTab === '1' ? (
 										// Pending
-										<FoodCard
+										<ApprovedFoodCard
 											withImage={false}
+											image={''}
 											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
 											lastname={ingredient.lastname}
-											showApproveButton={false}
-											showRejectButton={true}
 											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : currentTab === '2' ? (
 										// Rejected
-										<FoodCard
+										<RejectedFoodCard
+											image={''}
 											withImage={false}
 											code={ingredient.ingredient_code}
 											comments={ingredient.ingredients_comments}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
 											lastname={ingredient.lastname}
-											showApproveButton={false}
-											showRejectButton={false}
 											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : null}

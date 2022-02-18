@@ -37,7 +37,6 @@ function AdminScreen(props) {
 	// Prepairing some menu related data
 	const openDrawer = menuDetails.open;
 	const currentMenu = menuDetails.menu;
-	console.log(props);
 	return (
 		<Grid container direction={'column'} justifyContent={'flex-start'} alignItems={'stretch'}>
 			{/* HEADER */}

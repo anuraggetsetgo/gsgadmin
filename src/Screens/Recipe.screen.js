@@ -7,7 +7,9 @@ import { Pagination } from '@mui/lab';
 import StatusTabs from '../Components/StatusTabs';
 import SpinnerLoader from '../Components/SpinnerLoader';
 import Snackbar from '../Components/Snackbar';
-import FoodCard from '../Components/FoodCard';
+import PendingFoodCard from '../Components/PendingFoodCard';
+import ApprovedFoodCard from '../Components/ApprovedFoodCard';
+import RejectedFoodCard from '../Components/RejectedFoodCard';
 import NotFoundMessage from '../Components/NotFoundMessage';
 import RecipePreview from '../Components/RecipePreview';
 import ApproveDialog from '../Components/ApproveDialog';
@@ -76,41 +78,36 @@ function RecipeScreen(props) {
 								<Grid item xs={4} key={`${recipe.recipe_name}-${index}`}>
 									{currentTab === '0' ? (
 										// Pending
-										<FoodCard
+										<PendingFoodCard
 											withImage={true}
 											image={recipe.recipe_image}
 											code={recipe.recipe_code}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}
 											lastname={recipe.lastname}
-											showApproveButton={true}
-											showRejectButton={true}
 											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : currentTab === '1' ? (
 										// Pending
-										<FoodCard
+										<ApprovedFoodCard
 											withImage={true}
 											image={recipe.recipe_image}
 											code={recipe.recipe_code}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}
 											lastname={recipe.lastname}
-											showApproveButton={false}
-											showRejectButton={true}
 											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : currentTab === '2' ? (
 										// Rejected
-										<FoodCard
+										<RejectedFoodCard
 											withImage={true}
 											image={recipe.recipe_image}
 											code={recipe.recipe_code}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}
 											lastname={recipe.lastname}
-											showApproveButton={false}
-											showRejectButton={false}
+											comments={recipe.recipe_comments}
 											distinguishCardClicks={distinguishCardClicks}
 										/>
 									) : null}

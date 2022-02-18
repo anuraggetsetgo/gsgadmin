@@ -27,7 +27,7 @@ function RecipeActions() {
 		metaData: false,
 	});
 	// Fetch Recipe API Data
-	const [fetchRecipeAPIData, setFetchRecipeAPIData] = useState({ recipe_code: '' });
+	const [fetchRecipeAPIData, setFetchRecipeAPIData] = useState({ code: '' });
 	// Approve Recipe API Data
 	const [approveRecipeAPIData, setApproveRecipeAPIData] = useState({ recipe_code: '' });
 	// Reject Recipe API Data
@@ -73,7 +73,7 @@ function RecipeActions() {
 	}, [recipeSearchAPIData]);
 	// Fetch Recipe
 	useEffect(() => {
-		if (fetchRecipeAPIData.recipe_code.length > 0) {
+		if (fetchRecipeAPIData.code.length > 0) {
 			//   We have a valid Recipe code
 			fetchRecipeAPI(fetchRecipeAPIData, handleFetchRecipeAPIRespone, apiFailed);
 		}
@@ -116,7 +116,7 @@ function RecipeActions() {
 		let recipe_code = additionalData[0];
 		switch (action) {
 			case 'open-preview':
-				setFetchRecipeAPIData({ recipe_code: recipe_code });
+				setFetchRecipeAPIData({ code: recipe_code });
 				setRecipePreviewDetails((prevState) => ({ ...prevState, open: true, isLoading: true }));
 				break;
 			case 'close-preview':
@@ -248,7 +248,7 @@ function RecipeActions() {
 				recipe: response.data.data.recipe,
 				mappedIngredients: response.data.data.mappedIngredients,
 			}));
-			setFetchRecipeAPIData({ recipe_code: '' });
+			setFetchRecipeAPIData({ code: '' });
 		}
 	};
 	// APPROVE Recipe API RESPONSE
@@ -286,7 +286,7 @@ function RecipeActions() {
 	const apiFailed = (error) => {
 		let message = error.message ? error.message : 'Something went wrong. Please try again!';
 		if (error.message.includes('timeout')) {
-			message = 'Request timed out. Please try again!';
+			message = 'It took too long to respond. Please try again!';
 		}
 		showSnackbar(message);
 	};

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Button, Typography, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
 import { Styles } from '../app-styles';
-function PendingFoodCard(props) {
-	const { image, name, firstname, lastname, withImage, distinguishCardClicks, code } = props;
+function RejectedFoodCard(props) {
+	const { withImage, image, code, comments, name, firstname, lastname, distinguishCardClicks } = props;
 	return (
 		<Card
 			id='card'
@@ -32,20 +32,15 @@ function PendingFoodCard(props) {
 						xs={withImage ? 7 : 12}
 						container
 						direction='column'
-						justifyContent='center'
+						justifyContent='flex-start'
 						alignItems='center'
 						style={{ padding: withImage ? '5px' : '15px' }}>
 						<Grid container>
-							<Grid container justifyContent='flex-start' alignItems='center' style={{ ...Styles.marginTop10 }}>
-								<Typography variant='h6'>{name}</Typography>
-							</Grid>
-							<Grid container justifyContent='flex-start' alignItems='center'>
-								<Typography variant='subtitle2' color='Grey'>
-									{firstname + ' ' + lastname}
-								</Typography>
-							</Grid>
-							<Grid item xs={12} container style={{ marginTop: '10px' }} justifyContent='flex-start'>
-								<Grid item style={{ padding: '5px 5px 5px 0px' }}>
+							<Grid container justifyContent='space-between' alignItems='center' style={{ ...Styles.marginTop10 }}>
+								<Grid item>
+									<Typography variant='h6'>{name}</Typography>
+								</Grid>
+								<Grid item>
 									<Button
 										id='view-button'
 										variant='contained'
@@ -57,32 +52,19 @@ function PendingFoodCard(props) {
 										View
 									</Button>
 								</Grid>
-								<Grid item style={{ ...Styles.padding5 }}>
-									<Button
-										id='approve-button'
-										variant='contained'
-										color='success'
-										size='small'
-										onClick={(e) => {
-											distinguishCardClicks(e.target.id, code);
-										}}
-										style={{ ...Styles.padding5 }}>
-										Approve
-									</Button>
-								</Grid>
-								<Grid item style={{ ...Styles.padding5 }}>
-									<Button
-										id='reject-button'
-										variant='contained'
-										color='error'
-										size='small'
-										onClick={(e) => {
-											distinguishCardClicks(e.target.id, code);
-										}}>
-										Reject
-									</Button>
-								</Grid>
 							</Grid>
+							<Grid container justifyContent='flex-start' alignItems='center'>
+								<Typography variant='subtitle2' color='Grey'>
+									{firstname + ' ' + lastname}
+								</Typography>
+							</Grid>
+						</Grid>
+						<Grid container justifyContent='flex-start' alignItems='center'>
+							{comments ? (
+								<Typography variant='caption' color='error' align='left'>
+									{comments}
+								</Typography>
+							) : null}
 						</Grid>
 					</Grid>
 				</Grid>
@@ -91,4 +73,4 @@ function PendingFoodCard(props) {
 	);
 }
 
-export default PendingFoodCard;
+export default RejectedFoodCard;

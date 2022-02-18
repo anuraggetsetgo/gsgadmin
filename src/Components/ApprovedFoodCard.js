@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Button, Typography, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
 import { Styles } from '../app-styles';
-function PendingFoodCard(props) {
+function ApprovedFoodCard(props) {
 	const { image, name, firstname, lastname, withImage, distinguishCardClicks, code } = props;
 	return (
 		<Card
@@ -57,19 +57,7 @@ function PendingFoodCard(props) {
 										View
 									</Button>
 								</Grid>
-								<Grid item style={{ ...Styles.padding5 }}>
-									<Button
-										id='approve-button'
-										variant='contained'
-										color='success'
-										size='small'
-										onClick={(e) => {
-											distinguishCardClicks(e.target.id, code);
-										}}
-										style={{ ...Styles.padding5 }}>
-										Approve
-									</Button>
-								</Grid>
+
 								<Grid item style={{ ...Styles.padding5 }}>
 									<Button
 										id='reject-button'
@@ -91,4 +79,4 @@ function PendingFoodCard(props) {
 	);
 }
 
-export default PendingFoodCard;
+export default ApprovedFoodCard;
