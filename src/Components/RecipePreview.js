@@ -56,6 +56,7 @@ export default function RecipePreview(props) {
 	const type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
 	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps) : [];
+	console.log(steps, 'Recpe Steps');
 	return (
 		<Dialog
 			fullWidth={true}
@@ -264,7 +265,7 @@ export default function RecipePreview(props) {
 								{steps.map((step, index) => (
 									<Typography variant='subtitle2' align='left' key={`${step}-${index}`}>
 										<b>{`Step ${index + 1}:`}</b>
-										{` ${step.step}`}
+										{` ${step}`}
 									</Typography>
 								))}
 							</Grid>

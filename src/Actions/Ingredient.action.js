@@ -22,7 +22,7 @@ function IngredientActions() {
 		count: ingredient_count,
 		page: 1,
 		search: '',
-		status: 1,
+		status: 0,
 	});
 	// Fetch Ingredient API Data
 	const [fetchIngredientAPIData, setFetchIngredientAPIData] = useState({ code: '' });
