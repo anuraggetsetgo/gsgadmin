@@ -6,9 +6,9 @@ import { Styles } from '../app-styles';
 import { colors } from '../Utilities/services';
 function ToolIcon(props) {
 	// De-stucrturing props
-	const { title, icon, onClick } = props;
+	const { title, icon, onClick, bgColor } = props;
 	return (
-		<Card elevation={1} style={{ ...Styles.lightGreyBG, ...Styles.parentSquare }}>
+		<Card elevation={1} style={{ backgroundColor: bgColor, ...Styles.parentSquare }}>
 			<Grid
 				container
 				direction='column'
@@ -20,11 +20,6 @@ function ToolIcon(props) {
 					...Styles.childSquare,
 					height: '100%',
 					width: '100%',
-					// position: 'absolute',
-					// top: 0,
-					// left: 0,
-					// bottom: 0,
-					// right: 0,
 				}}>
 				{/* ICON */}
 
@@ -45,7 +40,7 @@ function ToolIcon(props) {
 					alignItems={'center'}
 					style={{ height: '10%', width: '100%' }}>
 					<Grid item>
-						<Link underline='hover' variant='h6' onClick={onClick}>
+						<Link underline='hover' variant='h6' onClick={onClick} color={colors.black}>
 							{title}
 						</Link>
 					</Grid>

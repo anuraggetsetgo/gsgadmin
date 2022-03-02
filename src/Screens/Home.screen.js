@@ -10,13 +10,12 @@ import ToolIcon from '../Components/ToolIcon';
 // STYLES AND COLORS
 import { Styles } from '../app-styles';
 import { colors } from '../Utilities/services';
+import { muiPaletteLightColors } from '../Utilities/services';
 function HomeScreen(props) {
 	// De-structuring props
 	const { updateCurrentView } = props;
-	// COnfig
-	let menuList = Config.menuList;
-	menuList = menuList.slice(1);
-	const menuIcons = Config.menuIcons;
+	// ToolIcons Colors
+	let toolIconsColors = Object.values(muiPaletteLightColors);
 	return (
 		<Grid
 			container
@@ -31,6 +30,7 @@ function HomeScreen(props) {
 					onClick={() => {
 						updateCurrentView('Recipes');
 					}}
+					bgColor={toolIconsColors[0]}
 				/>
 			</Grid>
 			<Grid item xs={1.5}>
@@ -40,6 +40,7 @@ function HomeScreen(props) {
 					onClick={() => {
 						updateCurrentView('Ingredients');
 					}}
+					bgColor={toolIconsColors[1]}
 				/>
 			</Grid>
 		</Grid>

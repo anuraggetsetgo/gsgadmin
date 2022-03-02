@@ -65,7 +65,12 @@ function IngredientScreens(props) {
 					/>
 				) : ingredientsList.length > 0 ? (
 					<Grid container direction='column'>
-						<Grid container justifyContent='flex-start' spacing={1} style={{ height: '75vh' }}>
+						<Grid
+							container
+							justifyContent='flex-start'
+							alignItems={'flex-start'}
+							spacing={1}
+							style={{ height: '75vh' }}>
 							{ingredientsList.map((ingredient, index) => (
 								<Grid item xs={3} key={`${ingredient.ingredient_name}-${index}`}>
 									{currentTab === '0' ? (
