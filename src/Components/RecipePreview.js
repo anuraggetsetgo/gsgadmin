@@ -55,7 +55,7 @@ export default function RecipePreview(props) {
 	const cuisine = recipe.recipe_cuisine ? recipe.recipe_cuisine : '';
 	const type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
-	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps.slice(1, -1)) : [];
+	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps) : [];
 	return (
 		<Dialog
 			fullWidth={true}
@@ -242,13 +242,13 @@ export default function RecipePreview(props) {
 											<TableBody>
 												{mappedIngredients.map((ingredient, index) => (
 													<TableRow key={`${ingredient.name}-${index}`}>
-														<TableCell align='left'>{ingredient.ri_ingredient_name}</TableCell>
-														<TableCell align='center'>{ingredient.ri_quantity + ' ' + ingredient.ri_unit}</TableCell>
-														<TableCell align='center'>{ingredient.ri_protein}</TableCell>
-														<TableCell align='center'>{ingredient.ri_fat}</TableCell>
-														<TableCell align='center'>{ingredient.ri_carbohydrate}</TableCell>
-														<TableCell align='center'>{ingredient.ri_alcohol}</TableCell>
-														<TableCell align='center'>{ingredient.ri_fibre}</TableCell>
+														<TableCell align='left'>{ingredient.ingredient_name}</TableCell>
+														<TableCell align='center'>{ingredient.quantity + ' ' + ingredient.unit}</TableCell>
+														<TableCell align='center'>{ingredient.protein}</TableCell>
+														<TableCell align='center'>{ingredient.fat}</TableCell>
+														<TableCell align='center'>{ingredient.carbohydrate}</TableCell>
+														<TableCell align='center'>{ingredient.alcohol}</TableCell>
+														<TableCell align='center'>{ingredient.fibre}</TableCell>
 													</TableRow>
 												))}
 											</TableBody>

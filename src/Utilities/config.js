@@ -22,6 +22,10 @@ const config = {
 	// STATUS TABS
 	statusTabs: ['0', '1', '2'],
 	statusTabLabels: ['Pending', 'Approved', 'Rejected'],
+	// HTML Regex
+	htmlRegex: /<(.|\n)*?>/,
+	// General Text Regex
+	generalTextRegex: /^[a-zA-Z0-9 !@#$%^&*()_=*-+.><,;:|'"]*$/,
 };
 
 export default config;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText, TextField, Button } from '@mui/material';
 
 function RejectDialog(props) {
-	const { open, text, onComment, onReject, onDeclineReject } = props;
+	const { open, text, onComment, onReject, onDeclineReject, comment } = props;
 	return (
 		<Dialog open={open}>
 			<DialogTitle id='alert-dialog-title'>{'Reject Recipe'}</DialogTitle>
@@ -17,6 +17,7 @@ function RejectDialog(props) {
 					fullWidth
 					variant='standard'
 					onChange={onComment}
+					value={comment}
 				/>
 			</DialogContent>
 			<DialogActions>

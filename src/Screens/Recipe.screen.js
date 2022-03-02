@@ -151,6 +151,7 @@ function RecipeScreen(props) {
 			<RejectDialog
 				open={rejectRecipeDetails['openDialog']}
 				text={'Are you sure want to reject this recipe?'}
+				comment={rejectRecipeDetails.recipe_comments}
 				onComment={(e) => {
 					handleRecipeRejectActions('add-comment', e.target.value);
 				}}

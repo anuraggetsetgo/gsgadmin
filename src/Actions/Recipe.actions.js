@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import RecipeScreen from '../Screens/Recipe.screen';
 // CONFIG
 import Config from '../Utilities/config';
+// Util Functions
+import { testGeneralTextRegex, testHTMLRegex } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
 import { searchRecipeAPI } from '../GSGAPI/AdminToolAPIs';
 import { fetchRecipeAPI } from '../GSGAPI/AdminToolAPIs';
@@ -14,6 +16,8 @@ function RecipeActions() {
 	// CONFIG DATA
 	// -----------
 	const recipe_count = Config.recipe_count;
+	const htmlRegex = Config.htmlRegex;
+	const generalTextRegex = Config.generalTextRegex;
 
 	// ----------
 	// USE STATES
@@ -176,10 +180,20 @@ function RecipeActions() {
 				break;
 			case 'add-comment':
 				recipe_comments = additionalData[0];
-				setRejectRecipeDetails((prevState) => ({
-					...prevState,
-					recipe_comments: recipe_comments,
-				}));
+				if (!testGeneralTextRegex(recipe_comments)) {
+					console.log('general text fiald');
+					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
+				} else if (testHTMLRegex(recipe_comments)) {
+					console.log('ghtml fialed');
+					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
+				} else {
+					console.log('Settigv comment');
+					setRejectRecipeDetails((prevState) => ({
+						...prevState,
+						recipe_comments: recipe_comments,
+					}));
+				}
+
 				break;
 			case 'reject-recipe':
 				recipe_code = rejectRecipeDetails['recipe_code'];
