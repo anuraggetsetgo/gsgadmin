@@ -1,8 +1,6 @@
 import React from 'react';
 // MUI COMPONENTS
-import { Grid, Typography } from '@mui/material';
-// MUI LAB
-import { Pagination } from '@mui/lab';
+import { Grid, Pagination } from '@mui/material';
 // COMPONENTS
 import StatusTabs from '../Components/StatusTabs';
 import SpinnerLoader from '../Components/SpinnerLoader';
@@ -48,20 +46,15 @@ function IngredientScreens(props) {
 		closeSnackbar,
 	} = props;
 	return (
-		<Grid container direction='column' justifyContent='flex-start' alignItems='center' style={{ height: '90vh' }}>
+		<Grid container direction='column' justifyContent='flex-start' alignItems='center' style={{ height: '85vh' }}>
 			{/* Tabs */}
 			<Grid container style={{ height: '7vh' }}>
-				<Grid item xs={10}>
+				<Grid item xs={12}>
 					<StatusTabs currentTab={currentTab} onChange={handleStatusTabChange} />
-				</Grid>
-				<Grid item xs={2} container justifyContent='center' alignItems='center'>
-					<Typography variant='h5' color={colors.grey}>
-						Ingredients
-					</Typography>
 				</Grid>
 			</Grid>
 			{/* Ingredients */}
-			<Grid container style={{ height: '80vh', padding: '10px' }}>
+			<Grid container style={{ height: '70vh', padding: '10px' }}>
 				{isSearching ? (
 					<SpinnerLoader
 						height={'80vh'}

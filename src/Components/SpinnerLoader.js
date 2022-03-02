@@ -6,7 +6,6 @@ import { Circles } from 'react-loader-spinner';
 
 function SpinnerLoader(props) {
 	const { height, loaderColor, loaderHeight, loaderWidth, loadingText } = props;
-	console.log(props);
 	return (
 		<Grid
 			container

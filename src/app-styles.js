@@ -36,6 +36,18 @@ let Styles = {
 	marginRight5: {
 		marginRight: 5,
 	},
+
+	// Background Color
+	greyBG: {
+		backgroundColor: colors.grey,
+	},
+	lightGreyBG: {
+		backgroundColor: colors.lightGrey,
+	},
+
+	// Parent
+	parentSquare: { paddingTop: '100%', position: 'relative', width: '100%' },
+	childSquare: { position: 'absolute', top: 0, left: 0, bottom: 0, right: 0 },
 };
 
 export { Styles };

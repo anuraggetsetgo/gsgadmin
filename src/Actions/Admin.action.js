@@ -11,23 +11,32 @@ function AdminActions() {
 	// REQUIRED STATES
 	// ----------------
 	// MENU
-	const [menuDetails, setMenuDetails] = useState({ open: false, menu: menuList[1] });
+	// const [menuDetails, setMenuDetails] = useState({ open: false, menu: menuList[1] });
+	const [menuDetails, setMenuDetails] = useState({ open: false, anchor: null });
+	// Current View
+	const [currentView, setcurrentView] = useState(menuList[0]);
+
 	// ------------------
 	// HANDLER FUNCTIONS
 	// ------------------
+	// Update Current View
+	const updateCurrentView = (view) => {
+		setcurrentView(view);
+	};
 	const handleMenuActions = (action, ...additionalData) => {
-		let menu;
+		let anchor, menu;
 		switch (action) {
 			case 'open':
-				setMenuDetails((prevState) => ({ ...prevState, open: true, menu: '' }));
+				anchor = additionalData[0];
+				setMenuDetails((prevState) => ({ ...prevState, open: true, anchor: anchor }));
 				break;
 			case 'close':
-				setMenuDetails((prevState) => ({ ...prevState, open: false, menu: '' }));
+				setMenuDetails((prevState) => ({ ...prevState, open: false, anchor: null }));
 				break;
-			case 'set-menu':
+			case 'set-view':
 				menu = additionalData[0];
-				setMenuDetails((prevState) => ({ ...prevState, open: false, menu: menu }));
-
+				updateCurrentView(menu);
+				setMenuDetails((prevState) => ({ ...prevState, open: false, anchor: null }));
 				break;
 			default:
 				break;
@@ -38,6 +47,9 @@ function AdminActions() {
 			// MENU
 			menuDetails={menuDetails}
 			handleMenuActions={handleMenuActions}
+			// Current View
+			currentView={currentView}
+			updateCurrentView={updateCurrentView}
 		/>
 	);
 }

@@ -44,6 +44,7 @@ import SpinnerLoder from '../Components/SpinnerLoader';
 import SpinnerLoader from '../Components/SpinnerLoader';
 export default function RecipePreview(props) {
 	const { open, onClose, isLoading, recipe, mappedIngredients } = props;
+	console.log(recipe, mappedIngredients);
 	// Extracting some data
 	const name = recipe.recipe_name ? recipe.recipe_name : '';
 	const cookingtime = recipe.recipe_cookingtime ? recipe.recipe_cookingtime : '';
@@ -56,7 +57,6 @@ export default function RecipePreview(props) {
 	const type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
 	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps) : [];
-	console.log(steps, 'Recpe Steps');
 	return (
 		<Dialog
 			fullWidth={true}
