@@ -3,11 +3,17 @@ import React, { useState, useEffect } from 'react';
 import IngredientScreens from '../Screens/Ingredient.screen';
 // CONFIG
 import Config from '../Utilities/config';
+
+// Util Functions
+import { testGeneralTextRegex, testHTMLRegex } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
-import { searchIngredientsAPI } from '../GSGAPI/AdminToolAPIs';
-import { fetchIngredientAPI } from '../GSGAPI/AdminToolAPIs';
-import { approveIngredientAPI } from '../GSGAPI/AdminToolAPIs';
-import { rejectIngredientAPI } from '../GSGAPI/AdminToolAPIs';
+import {
+	searchIngredientsAPI,
+	fetchIngredientAPI,
+	approveIngredientAPI,
+	rejectIngredientAPI,
+} from '../GSGAPI/AdminToolAPIs';
+
 function IngredientActions() {
 	// -----------
 	// CONFIG DATA
@@ -167,10 +173,17 @@ function IngredientActions() {
 				break;
 			case 'add-comment':
 				ingredient_comments = additionalData[0];
-				setRejectIngredientDetails((prevState) => ({
-					...prevState,
-					ingredient_comments: ingredient_comments,
-				}));
+				if (!testGeneralTextRegex(ingredient_comments)) {
+					showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
+				} else if (testHTMLRegex(ingredient_comments)) {
+					showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
+				} else {
+					setRejectIngredientDetails((prevState) => ({
+						...prevState,
+						ingredient_comments: ingredient_comments,
+					}));
+				}
+
 				break;
 			case 'reject-ingredient':
 				ingredient_code = rejectIngredientDetails['ingredient_code'];
@@ -227,6 +240,7 @@ function IngredientActions() {
 		} else {
 			// Incase of failure, ingredientList should be set to null array
 			setIngredientsList([]);
+			showSnackbar('Something went wrong. Please try again!');
 		}
 		setIsSearching(false);
 	};
@@ -234,38 +248,45 @@ function IngredientActions() {
 	const handleFetchIngredientAPIRespone = (response) => {
 		if (response.data.success) {
 			setIngredientPreviewDetails((prevState) => ({ ...prevState, isLoading: false, ingredient: response.data.data }));
-			setFetchIngredientAPIData({ code: '' });
+		} else {
+			setIngredientPreviewDetails((prevState) => ({ ...prevState, open: false, isLoading: false, ingredient: {} }));
+
+			showSnackbar('Something went wrong. Please try again!');
 		}
+		setFetchIngredientAPIData({ code: '' });
 	};
 	// APPROVE INGREDIENT API RESPONSE
 	const handleApproveIngredientAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
 		if (response.data.success) {
-			handleIngredientApproveActions('close-approve-dialog');
 			if (ingredientsList.length === 1) {
 				// this means it was the last ingredient on that page
 				handlePageUpdate(1);
 			} else {
 				searchIngredients();
 			}
+			showSnackbar(message);
+		} else {
+			showSnackbar('Something went wrong. Please try again!');
 		}
-		showSnackbar(message);
+		handleIngredientApproveActions('close-approve-dialog');
 	};
 
 	// REJECT INGREDIENT API RESPONSE
 	const handleRejectIngredientAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
-
 		if (response.data.success) {
-			handleIngredientRejectActions('close-reject-dialog');
 			if (ingredientsList.length === 1) {
 				// this means it was the last ingredient on that page
 				handlePageUpdate(1);
 			} else {
 				searchIngredients();
 			}
+			showSnackbar(message);
+		} else {
+			showSnackbar('Something went wrong. Please try again!');
 		}
-		showSnackbar(message);
+		handleIngredientRejectActions('close-reject-dialog');
 	};
 
 	// API FAILED

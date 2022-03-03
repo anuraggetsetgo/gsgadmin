@@ -164,6 +164,11 @@ function IngredientScreens(props) {
 						? ingredientPreviewDetails['ingredient']['ingredient_unit']
 						: ''
 				}
+				comments={
+					ingredientPreviewDetails['ingredient']['ingredients_comments']
+						? ingredientPreviewDetails['ingredient']['ingredients_comments']
+						: ''
+				}
 			/>
 			{/* Approve Ingredient */}
 			<ApproveDialog
@@ -180,6 +185,7 @@ function IngredientScreens(props) {
 			<RejectDialog
 				open={rejectIngredientDetails['openDialog']}
 				text={'Are you sure want to reject this ingredient?'}
+				comment={rejectIngredientDetails.ingredient_comments}
 				onComment={(e) => {
 					handleIngredientRejectActions('add-comment', e.target.value);
 				}}

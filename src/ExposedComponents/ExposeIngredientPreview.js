@@ -2,7 +2,8 @@ import React from 'react';
 // Importing Actual Component
 import IngredientPreview from '../Components/IngredientPreview';
 function ExposeIngredientPreview(props) {
-	const { open, isLoading, onClose, name, protein, fat, carbs, alcohol, fibre, calories, quantity, unit } = props;
+	const { open, isLoading, onClose, name, protein, fat, carbs, alcohol, fibre, calories, quantity, unit, comments } =
+		props;
 
 	return (
 		<IngredientPreview
@@ -18,6 +19,7 @@ function ExposeIngredientPreview(props) {
 			calories={calories}
 			quantity={quantity}
 			unit={unit}
+			comments={comments}
 		/>
 	);
 }

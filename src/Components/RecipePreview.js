@@ -56,10 +56,12 @@ export default function RecipePreview(props) {
 	const type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
 	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps) : [];
+	const comments = recipe.recipe_comments ? recipe.recipe_comments : '';
+
 	return (
 		<Dialog
 			fullWidth={true}
-			maxWidth={'md'}
+			maxWidth={'lg'}
 			open={open}
 			onClose={onClose}
 			aria-labelledby='alert-dialog-title'
@@ -75,6 +77,7 @@ export default function RecipePreview(props) {
 			) : (
 				<Grid>
 					<DialogTitle>
+						{/* Header */}
 						<Grid container justifyContent='space-between'>
 							<Grid item container xs={6} justifyContent='flex-start' alignItems='center'>
 								<Typography variant='h5' color={colors.grey}>
@@ -90,6 +93,7 @@ export default function RecipePreview(props) {
 							</Grid>
 						</Grid>
 					</DialogTitle>
+					{/* Recipe Macros and Video */}
 
 					<DialogContent dividers>
 						<Grid container direction='column'>
@@ -157,9 +161,9 @@ export default function RecipePreview(props) {
 									</Grid>
 								</Grid>
 							</Grid>
-							{/* <Grid item container className='marginTop'> */}
 							<Divider className='marginTop ' />
-							{/* <//</DialogContent>Grid> */}
+
+							{/* Ingredients */}
 							<Grid item container direction='column' style={{ ...Styles.marginTop10 }}>
 								<Typography variant='h6' color='secondary'>
 									Added ingredients
@@ -256,7 +260,7 @@ export default function RecipePreview(props) {
 									</TableContainer>
 								</Grid>
 							</Grid>
-							{/* <Divider className='marginTop ' /> */}
+							{/* Steps */}
 							<Grid item container direction='column' style={{ ...Styles.marginTop10 }}>
 								<Typography variant='h6' color='secondary'>
 									Recipe cooking steps
@@ -268,6 +272,18 @@ export default function RecipePreview(props) {
 									</Typography>
 								))}
 							</Grid>
+							{/* Rejection Comments */}
+
+							{comments.length > 0 ? (
+								<Grid item container direction='column' style={{ ...Styles.marginTop10 }}>
+									<Typography variant='h6' color='secondary'>
+										Recipe Comments
+									</Typography>
+									<Typography variant='body1' align='justify'>
+										{comments}
+									</Typography>
+								</Grid>
+							) : null}
 						</Grid>
 					</DialogContent>
 				</Grid>

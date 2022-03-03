@@ -51,6 +51,7 @@ function callAPI(url, type, data, successCallback, errorCallback) {
 	const handleAPIError = (err) => {
 		let errorStatus = err.response.status ? err.response.status : '';
 		if (errorStatus == 401) {
+			localStorage.clear();
 			alert('Token expired.');
 		} else {
 			errorCallback(err);

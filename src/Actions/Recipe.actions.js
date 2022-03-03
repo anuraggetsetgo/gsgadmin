@@ -6,10 +6,7 @@ import Config from '../Utilities/config';
 // Util Functions
 import { testGeneralTextRegex, testHTMLRegex } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
-import { searchRecipeAPI } from '../GSGAPI/AdminToolAPIs';
-import { fetchRecipeAPI } from '../GSGAPI/AdminToolAPIs';
-import { approveRecipeAPI } from '../GSGAPI/AdminToolAPIs';
-import { rejectRecipeAPI } from '../GSGAPI/AdminToolAPIs';
+import { searchRecipeAPI, fetchRecipeAPI, approveRecipeAPI, rejectRecipeAPI } from '../GSGAPI/AdminToolAPIs';
 
 function RecipeActions() {
 	// -----------
@@ -28,7 +25,6 @@ function RecipeActions() {
 		page: 1,
 		search: '',
 		status: 0,
-		metaData: false,
 	});
 	// Fetch Recipe API Data
 	const [fetchRecipeAPIData, setFetchRecipeAPIData] = useState({ code: '' });
@@ -181,13 +177,10 @@ function RecipeActions() {
 			case 'add-comment':
 				recipe_comments = additionalData[0];
 				if (!testGeneralTextRegex(recipe_comments)) {
-					console.log('general text fiald');
 					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
 				} else if (testHTMLRegex(recipe_comments)) {
-					console.log('ghtml fialed');
 					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
 				} else {
-					console.log('Settigv comment');
 					setRejectRecipeDetails((prevState) => ({
 						...prevState,
 						recipe_comments: recipe_comments,
@@ -262,38 +255,50 @@ function RecipeActions() {
 				recipe: response.data.data.recipe,
 				mappedIngredients: response.data.data.mappedIngredients,
 			}));
-			setFetchRecipeAPIData({ code: '' });
+		} else {
+			setRecipePreviewDetails((prevState) => ({
+				...prevState,
+				open: false,
+				isLoading: false,
+				recipe: {},
+				mappedIngredients: [],
+			}));
+			showSnackbar('Something went wrong. Please try again!');
 		}
+		setFetchRecipeAPIData({ code: '' });
 	};
 	// APPROVE Recipe API RESPONSE
 	const handleApproveRecipeAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
 		if (response.data.success) {
-			handleRecipeApproveActions('close-approve-dialog');
 			if (recipeList.length === 1) {
 				// this means it was the last recipe on that page
 				handlePageUpdate(1);
 			} else {
 				searchRecipies();
 			}
+			showSnackbar(message);
+		} else {
+			showSnackbar('Something went wrong. Please try again!');
 		}
-		showSnackbar(message);
+		handleRecipeApproveActions('close-approve-dialog');
 	};
 
 	// REJECT Recipe API RESPONSE
 	const handleRejectRecipeAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
-
 		if (response.data.success) {
-			handleRecipeRejectActions('close-reject-dialog');
 			if (recipeList.length === 1) {
 				// this means it was the last recipe on that page
 				handlePageUpdate(1);
 			} else {
 				searchRecipies();
 			}
+			showSnackbar(message);
+		} else {
+			showSnackbar('Something went wrong. Please try again!');
 		}
-		showSnackbar(message);
+		handleRecipeRejectActions('close-reject-dialog');
 	};
 
 	// API FAILED
