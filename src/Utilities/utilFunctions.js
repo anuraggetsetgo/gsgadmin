@@ -12,6 +12,16 @@ function testGeneralTextRegex(text) {
 function testHTMLRegex(text) {
 	return htmlRegex.test(text);
 }
+// Validate Search Term
+function validateText(text) {
+	if (!testGeneralTextRegex(text)) {
+		return false;
+	} else if (testHTMLRegex(text)) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
 // Exporting Functions
-export { testGeneralTextRegex, testHTMLRegex };
+export { testGeneralTextRegex, testHTMLRegex, validateText };

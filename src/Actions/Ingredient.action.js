@@ -5,7 +5,7 @@ import IngredientScreens from '../Screens/Ingredient.screen';
 import Config from '../Utilities/config';
 
 // Util Functions
-import { testGeneralTextRegex, testHTMLRegex } from '../Utilities/utilFunctions';
+import { validateText } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
 import {
 	searchIngredientsAPI,
@@ -173,26 +173,30 @@ function IngredientActions() {
 				break;
 			case 'add-comment':
 				ingredient_comments = additionalData[0];
-				if (!testGeneralTextRegex(ingredient_comments)) {
-					showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
-				} else if (testHTMLRegex(ingredient_comments)) {
-					showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
-				} else {
-					setRejectIngredientDetails((prevState) => ({
-						...prevState,
-						ingredient_comments: ingredient_comments,
-					}));
-				}
+				// if (!testGeneralTextRegex(ingredient_comments)) {
+				// 	showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
+				// } else if (testHTMLRegex(ingredient_comments)) {
+				// 	showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
+				// } else {
+				setRejectIngredientDetails((prevState) => ({
+					...prevState,
+					ingredient_comments: ingredient_comments,
+				}));
+				// }
 
 				break;
 			case 'reject-ingredient':
 				ingredient_code = rejectIngredientDetails['ingredient_code'];
 				ingredient_comments = rejectIngredientDetails['ingredient_comments'];
-				setRejectIngredientAPIData((prevState) => ({
-					...prevState,
-					ingredient_code: ingredient_code,
-					ingredient_comments: ingredient_comments,
-				}));
+				if (!validateText(ingredient_comments)) {
+					showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
+				} else {
+					setRejectIngredientAPIData((prevState) => ({
+						...prevState,
+						ingredient_code: ingredient_code,
+						ingredient_comments: ingredient_comments,
+					}));
+				}
 
 				break;
 

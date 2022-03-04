@@ -48,11 +48,15 @@ function callAPI(url, type, data, successCallback, errorCallback) {
 
 	// Handle API Error
 
-	const handleAPIError = (err) => {
-		let errorStatus = err.response.status ? err.response.status : '';
-		if (errorStatus == 401) {
-			localStorage.clear();
-			alert('Token expired.');
+	const handleAPIError = (error) => {
+		let errMsg = error.message ? error.message : '';
+		let errResponse = error.response ? error.response : {};
+		let errorStatus = errResponse.status ? errResponse.status : '';
+
+		if (errMsg.includes('timeout')) {
+			alert('Request timed out. Please try again!');
+		} else if (errorStatus == 401) {
+			alert('Your session is expired now. Please login again!');
 		} else {
 			errorCallback(err);
 		}

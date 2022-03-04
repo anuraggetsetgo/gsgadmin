@@ -19,6 +19,8 @@ import {
 	TableBody,
 } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
+// Config
+import Config from '../Utilities/config';
 
 // Font Awesome
 import {
@@ -53,10 +55,14 @@ export default function RecipePreview(props) {
 	const fat = recipe.recipe_fat ? recipe.recipe_fat : 0;
 	const carbs = recipe.recipe_carb ? recipe.recipe_carb : 0;
 	const cuisine = recipe.recipe_cuisine ? recipe.recipe_cuisine : '';
-	const type = recipe.recipe_type ? recipe.recipe_type : '';
+	let type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
 	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps) : [];
 	const comments = recipe.recipe_comments ? recipe.recipe_comments : '';
+
+	// Config
+	const recipeTypes = Config.type;
+	type = recipeTypes[type];
 
 	return (
 		<Dialog

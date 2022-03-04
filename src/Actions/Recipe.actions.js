@@ -4,7 +4,7 @@ import RecipeScreen from '../Screens/Recipe.screen';
 // CONFIG
 import Config from '../Utilities/config';
 // Util Functions
-import { testGeneralTextRegex, testHTMLRegex } from '../Utilities/utilFunctions';
+import { validateText } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
 import { searchRecipeAPI, fetchRecipeAPI, approveRecipeAPI, rejectRecipeAPI } from '../GSGAPI/AdminToolAPIs';
 
@@ -13,9 +13,6 @@ function RecipeActions() {
 	// CONFIG DATA
 	// -----------
 	const recipe_count = Config.recipe_count;
-	const htmlRegex = Config.htmlRegex;
-	const generalTextRegex = Config.generalTextRegex;
-
 	// ----------
 	// USE STATES
 	// ----------
@@ -176,26 +173,24 @@ function RecipeActions() {
 				break;
 			case 'add-comment':
 				recipe_comments = additionalData[0];
-				if (!testGeneralTextRegex(recipe_comments)) {
-					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
-				} else if (testHTMLRegex(recipe_comments)) {
-					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
-				} else {
-					setRejectRecipeDetails((prevState) => ({
-						...prevState,
-						recipe_comments: recipe_comments,
-					}));
-				}
+				setRejectRecipeDetails((prevState) => ({
+					...prevState,
+					recipe_comments: recipe_comments,
+				}));
 
 				break;
 			case 'reject-recipe':
 				recipe_code = rejectRecipeDetails['recipe_code'];
 				recipe_comments = rejectRecipeDetails['recipe_comments'];
-				setRejectRecipeAPIData((prevState) => ({
-					...prevState,
-					recipe_code: recipe_code,
-					recipe_comments: recipe_comments,
-				}));
+				if (!validateText(recipe_comments)) {
+					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
+				} else {
+					setRejectRecipeAPIData((prevState) => ({
+						...prevState,
+						recipe_code: recipe_code,
+						recipe_comments: recipe_comments,
+					}));
+				}
 
 				break;
 
@@ -243,6 +238,7 @@ function RecipeActions() {
 		} else {
 			// Incase of failure, recipeList should be set to null array
 			setRecipeList([]);
+			showSnackbar('Something went wrong. Please try again!');
 		}
 		setIsSearching(false);
 	};
@@ -307,6 +303,7 @@ function RecipeActions() {
 		if (error.message.includes('timeout')) {
 			message = 'It took too long to respond. Please try again!';
 		}
+		setIsSearching(false);
 		showSnackbar(message);
 	};
 
