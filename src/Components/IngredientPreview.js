@@ -23,7 +23,6 @@ const Tooltip2 = React.forwardRef((props, ref) => <Tooltip {...props} ref={ref} 
 function IngredientPreview(props) {
 	const { open, isLoading, onClose, name, protein, fat, carbs, alcohol, fibre, calories, quantity, unit, comments } =
 		props;
-	console.log(comments, 'admin');
 	// Extracting the data to render
 
 	return (

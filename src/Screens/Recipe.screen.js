@@ -138,7 +138,10 @@ function RecipeScreen(props) {
 			/>
 			{/* Approve Recipe */}
 			<ApproveDialog
+				dialogTitle={'Approve Recipe'}
 				open={apporveRecipeDetails['openDialog']}
+				isApproving={apporveRecipeDetails['approvingRecipe']}
+				approvingTitle={'Approving recipe...'}
 				onApporve={() => {
 					handleRecipeApproveActions('approve-recipe');
 				}}
@@ -149,8 +152,11 @@ function RecipeScreen(props) {
 			/>
 			{/* Reject Recipe */}
 			<RejectDialog
+				dialogTitle={'Reject Recipe'}
 				open={rejectRecipeDetails['openDialog']}
 				text={'Are you sure want to reject this recipe?'}
+				isRejecting={rejectRecipeDetails['rejectingRecipe']}
+				rejectingTitle={'Rejecting recipe...'}
 				comment={rejectRecipeDetails.recipe_comments}
 				onComment={(e) => {
 					handleRecipeRejectActions('add-comment', e.target.value);

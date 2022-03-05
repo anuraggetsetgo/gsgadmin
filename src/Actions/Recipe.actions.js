@@ -52,11 +52,16 @@ function RecipeActions() {
 		isLoading: true,
 	});
 	// Recipe Approve Details
-	const [apporveRecipeDetails, setApporveRecipeDetails] = useState({ openDialog: false, recipe_code: '' });
+	const [apporveRecipeDetails, setApporveRecipeDetails] = useState({
+		openDialog: false,
+		approvingRecipe: false,
+		recipe_code: '',
+	});
 	// Reject Recipe
 	const [rejectRecipeDetails, setRejectRecipeDetails] = useState({
 		openDialog: false,
 		recipe_code: '',
+		rejectingRecipe: false,
 		recipe_comments: '',
 	});
 
@@ -137,13 +142,23 @@ function RecipeActions() {
 				setApporveRecipeDetails((prevState) => ({
 					...prevState,
 					openDialog: true,
+					approvingRecipe: false,
 					recipe_code: recipe_code,
 				}));
 				break;
 			case 'close-approve-dialog':
-				setApporveRecipeDetails((prevState) => ({ ...prevState, openDialog: false, recipe_code: '' }));
+				setApporveRecipeDetails((prevState) => ({
+					...prevState,
+					openDialog: false,
+					approvingRecipe: false,
+					recipe_code: '',
+				}));
 				break;
 			case 'approve-recipe':
+				setApporveRecipeDetails((prevState) => ({
+					...prevState,
+					approvingRecipe: true,
+				}));
 				setApproveRecipeAPIData({ recipe_code: apporveRecipeDetails['recipe_code'] });
 				break;
 			default:
@@ -159,6 +174,7 @@ function RecipeActions() {
 				setRejectRecipeDetails((prevState) => ({
 					...prevState,
 					openDialog: true,
+					rejectingRecipe: false,
 					recipe_code: recipe_code,
 					recipe_comments: '',
 				}));
@@ -167,6 +183,7 @@ function RecipeActions() {
 				setRejectRecipeDetails((prevState) => ({
 					...prevState,
 					openDialog: false,
+					rejectingRecipe: false,
 					recipe_code: '',
 					recipe_comments: '',
 				}));
@@ -185,6 +202,7 @@ function RecipeActions() {
 				if (!validateText(recipe_comments)) {
 					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
 				} else {
+					setRejectRecipeDetails((prevState) => ({ ...prevState, rejectingRecipe: true }));
 					setRejectRecipeAPIData((prevState) => ({
 						...prevState,
 						recipe_code: recipe_code,
@@ -259,7 +277,7 @@ function RecipeActions() {
 				recipe: {},
 				mappedIngredients: [],
 			}));
-			showSnackbar('Something went wrong. Please try again!');
+			awsAPIFailed(response);
 		}
 		setFetchRecipeAPIData({ code: '' });
 	};
@@ -275,7 +293,7 @@ function RecipeActions() {
 			}
 			showSnackbar(message);
 		} else {
-			showSnackbar('Something went wrong. Please try again!');
+			awsAPIFailed(response);
 		}
 		handleRecipeApproveActions('close-approve-dialog');
 	};
@@ -292,9 +310,20 @@ function RecipeActions() {
 			}
 			showSnackbar(message);
 		} else {
-			showSnackbar('Something went wrong. Please try again!');
+			awsAPIFailed(response);
 		}
 		handleRecipeRejectActions('close-reject-dialog');
+	};
+
+	// AWS API FAILED
+	const awsAPIFailed = (error) => {
+		// Checking for timeout
+		let errorMessage = error.data.errorMessage ? error.data.errorMessage : '';
+		if (errorMessage.includes('timed out')) {
+			showSnackbar('It took too long to respond. Please try again!');
+		} else {
+			showSnackbar('Something went wrong. Please try again!');
+		}
 	};
 
 	// API FAILED

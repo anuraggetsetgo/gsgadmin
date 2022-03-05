@@ -172,7 +172,10 @@ function IngredientScreens(props) {
 			/>
 			{/* Approve Ingredient */}
 			<ApproveDialog
+				dialogTitle={'Approve Ingredient'}
 				open={apporveIngredientDetails['openDialog']}
+				isApproving={apporveIngredientDetails['apporvingIngredient']}
+				approvingTitle={'Approving ingredient...'}
 				onApporve={() => {
 					handleIngredientApproveActions('approve-ingredient');
 				}}
@@ -183,8 +186,11 @@ function IngredientScreens(props) {
 			/>
 			{/* Reject Ingredient */}
 			<RejectDialog
+				dialogTitle={'Reject Ingredient'}
 				open={rejectIngredientDetails['openDialog']}
 				text={'Are you sure want to reject this ingredient?'}
+				isRejecting={rejectIngredientDetails['rejectingIngredient']}
+				rejectingTitle={'Rejecting ingredient...'}
 				comment={rejectIngredientDetails.ingredient_comments}
 				onComment={(e) => {
 					handleIngredientRejectActions('add-comment', e.target.value);

@@ -48,17 +48,32 @@ function callAPI(url, type, data, successCallback, errorCallback) {
 
 	// Handle API Error
 
+	// const handleAPIError = (error) => {
+	// 	let errMsg = error.message ? error.message : '';
+	// 	let errResponse = error.response ? error.response : {};
+	// 	let errorStatus = errResponse.status ? errResponse.status : '';
+
+	// 	if (errMsg.includes('timeout')) {
+	// 		alert('Request timed out. Please try again!');
+	// 	} else if (errorStatus == 401) {
+	// 		alert('Your session is expired now. Please login again!');
+	// 	} else {
+	// 		errorCallback(err);
+	// 	}
+	// };
 	const handleAPIError = (error) => {
+		// This function currently handles following API errors
+		// 1. Token expired-401
+		// 2. Timeout - axios timeout
 		let errMsg = error.message ? error.message : '';
 		let errResponse = error.response ? error.response : {};
 		let errorStatus = errResponse.status ? errResponse.status : '';
-
 		if (errMsg.includes('timeout')) {
-			alert('Request timed out. Please try again!');
+			alert('It took too long to respond. Please try again!');
 		} else if (errorStatus == 401) {
 			alert('Your session is expired now. Please login again!');
 		} else {
-			errorCallback(err);
+			errorCallback(error);
 		}
 	};
 

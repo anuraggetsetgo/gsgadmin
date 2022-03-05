@@ -58,10 +58,15 @@ function IngredientActions() {
 		isLoading: true,
 	});
 	// Ingredient Approve Details
-	const [apporveIngredientDetails, setApporveIngredientDetails] = useState({ openDialog: false, ingredient_code: '' });
+	const [apporveIngredientDetails, setApporveIngredientDetails] = useState({
+		openDialog: false,
+		apporvingIngredient: false,
+		ingredient_code: '',
+	});
 	// Reject Ingredient
 	const [rejectIngredientDetails, setRejectIngredientDetails] = useState({
 		openDialog: false,
+		rejectingIngredient: false,
 		ingredient_code: '',
 		ingredient_comments: '',
 	});
@@ -137,13 +142,20 @@ function IngredientActions() {
 				setApporveIngredientDetails((prevState) => ({
 					...prevState,
 					openDialog: true,
+					apporvingIngredient: false,
 					ingredient_code: ingredient_code,
 				}));
 				break;
 			case 'close-approve-dialog':
-				setApporveIngredientDetails((prevState) => ({ ...prevState, openDialog: false, ingredient_code: '' }));
+				setApporveIngredientDetails((prevState) => ({
+					...prevState,
+					openDialog: false,
+					apporvingIngredient: false,
+					ingredient_code: '',
+				}));
 				break;
 			case 'approve-ingredient':
+				setApporveIngredientDetails((prevState) => ({ ...prevState, openDialog: true, apporvingIngredient: true }));
 				setApproveIngredientAPIData({ ingredient_code: apporveIngredientDetails['ingredient_code'] });
 				break;
 			default:
@@ -160,6 +172,7 @@ function IngredientActions() {
 					...prevState,
 					openDialog: true,
 					ingredient_code: ingredient_code,
+					rejectingIngredient: false,
 					ingredient_comments: '',
 				}));
 				break;
@@ -168,21 +181,17 @@ function IngredientActions() {
 					...prevState,
 					openDialog: false,
 					ingredient_code: '',
+					rejectingIngredient: false,
 					ingredient_comments: '',
 				}));
 				break;
 			case 'add-comment':
 				ingredient_comments = additionalData[0];
-				// if (!testGeneralTextRegex(ingredient_comments)) {
-				// 	showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
-				// } else if (testHTMLRegex(ingredient_comments)) {
-				// 	showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
-				// } else {
+
 				setRejectIngredientDetails((prevState) => ({
 					...prevState,
 					ingredient_comments: ingredient_comments,
 				}));
-				// }
 
 				break;
 			case 'reject-ingredient':
@@ -191,6 +200,7 @@ function IngredientActions() {
 				if (!validateText(ingredient_comments)) {
 					showSnackbar(`${ingredient_comments} is an invalid comment. Please check!`);
 				} else {
+					setRejectIngredientDetails((prevState) => ({ ...prevState, rejectingIngredient: true }));
 					setRejectIngredientAPIData((prevState) => ({
 						...prevState,
 						ingredient_code: ingredient_code,
@@ -255,7 +265,7 @@ function IngredientActions() {
 		} else {
 			setIngredientPreviewDetails((prevState) => ({ ...prevState, open: false, isLoading: false, ingredient: {} }));
 
-			showSnackbar('Something went wrong. Please try again!');
+			awsAPIFailed(response);
 		}
 		setFetchIngredientAPIData({ code: '' });
 	};
@@ -271,7 +281,7 @@ function IngredientActions() {
 			}
 			showSnackbar(message);
 		} else {
-			showSnackbar('Something went wrong. Please try again!');
+			awsAPIFailed(response);
 		}
 		handleIngredientApproveActions('close-approve-dialog');
 	};
@@ -288,9 +298,19 @@ function IngredientActions() {
 			}
 			showSnackbar(message);
 		} else {
-			showSnackbar('Something went wrong. Please try again!');
+			awsAPIFailed(response);
 		}
 		handleIngredientRejectActions('close-reject-dialog');
+	};
+	// AWS API FAILED
+	const awsAPIFailed = (error) => {
+		// Checking for timeout
+		let errorMessage = error.data.errorMessage ? error.data.errorMessage : '';
+		if (errorMessage.includes('timed out')) {
+			showSnackbar('It took too long to respond. Please try again!');
+		} else {
+			showSnackbar('Something went wrong. Please try again!');
+		}
 	};
 
 	// API FAILED
