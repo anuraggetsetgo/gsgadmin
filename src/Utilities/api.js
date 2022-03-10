@@ -71,6 +71,7 @@ function callAPI(url, type, data, successCallback, errorCallback) {
 		if (errMsg.includes('timeout')) {
 			alert('It took too long to respond. Please try again!');
 		} else if (errorStatus == 401) {
+			localStorage.clear();
 			alert('Your session is expired now. Please login again!');
 		} else {
 			errorCallback(error);

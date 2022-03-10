@@ -22,6 +22,15 @@ function validateText(text) {
 		return true;
 	}
 }
+// Function to Validate the String
+function validateJSONString(str) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
+}
 
 // Exporting Functions
-export { testGeneralTextRegex, testHTMLRegex, validateText };
+export { testGeneralTextRegex, testHTMLRegex, validateText, validateJSONString };

@@ -21,7 +21,6 @@ import {
 import ClearIcon from '@mui/icons-material/Clear';
 // Config
 import Config from '../Utilities/config';
-
 // Font Awesome
 import {
 	faFire,
@@ -42,8 +41,9 @@ import { colors } from '../Utilities/services';
 import { Styles } from '../app-styles';
 // Components
 import Macros from '../Components/Macros';
-import SpinnerLoder from '../Components/SpinnerLoader';
 import SpinnerLoader from '../Components/SpinnerLoader';
+// Util Functions
+import { validateJSONString } from '../Utilities/utilFunctions';
 export default function RecipePreview(props) {
 	const { open, onClose, isLoading, recipe, mappedIngredients } = props;
 	// Extracting some data
@@ -57,7 +57,13 @@ export default function RecipePreview(props) {
 	const cuisine = recipe.recipe_cuisine ? recipe.recipe_cuisine : '';
 	let type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
-	const steps = recipe.recipe_steps ? JSON.parse(recipe.recipe_steps) : [];
+	console.log(recipe.recipe_steps, 'Recipe Steps');
+
+	const steps = recipe.recipe_steps
+		? validateJSONString(recipe.recipe_steps)
+			? JSON.parse(recipe.recipe_steps)
+			: []
+		: [];
 	const comments = recipe.recipe_comments ? recipe.recipe_comments : '';
 
 	// Config
@@ -267,6 +273,7 @@ export default function RecipePreview(props) {
 								</Grid>
 							</Grid>
 							{/* Steps */}
+
 							<Grid item container direction='column' style={{ ...Styles.marginTop10 }}>
 								<Typography variant='h6' color='secondary'>
 									Recipe cooking steps
@@ -277,7 +284,13 @@ export default function RecipePreview(props) {
 										{` ${step}`}
 									</Typography>
 								))}
+								{steps.length === 0 ? (
+									<Typography variant='caption' align='left'>
+										Cooking steps are not added to this recipe
+									</Typography>
+								) : null}
 							</Grid>
+
 							{/* Rejection Comments */}
 
 							{comments.length > 0 ? (
