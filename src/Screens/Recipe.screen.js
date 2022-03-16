@@ -169,7 +169,12 @@ function RecipeScreen(props) {
 				}}
 			/>
 			{/* Snackbar */}
-			<Snackbar open={snackbarDetails.open} onClose={closeSnackbar} message={snackbarDetails.message} />
+			<Snackbar
+				open={snackbarDetails.open}
+				onClose={closeSnackbar}
+				message={snackbarDetails.message}
+				severity={snackbarDetails.severity}
+			/>
 		</Grid>
 	);
 }

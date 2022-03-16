@@ -57,7 +57,6 @@ export default function RecipePreview(props) {
 	const cuisine = recipe.recipe_cuisine ? recipe.recipe_cuisine : '';
 	let type = recipe.recipe_type ? recipe.recipe_type : '';
 	const servings = recipe.recipe_serving ? recipe.recipe_serving : '';
-	console.log(recipe.recipe_steps, 'Recipe Steps');
 
 	const steps = recipe.recipe_steps
 		? validateJSONString(recipe.recipe_steps)

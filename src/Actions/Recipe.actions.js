@@ -39,7 +39,7 @@ function RecipeActions() {
 	// Is Searching
 	const [isSearching, setIsSearching] = useState(true);
 	// Snackbar Details
-	const [snackbarDetails, setSnackbarDetails] = useState({ open: false, message: '' });
+	const [snackbarDetails, setSnackbarDetails] = useState({ open: false, message: '', severity: 'info' });
 	// Handle Tab Change
 	const handleStatusTabChange = (event, newStatusValue) => {
 		setRecipeSearchAPIData((prevState) => ({ ...prevState, status: parseInt(newStatusValue), page: 1 }));
@@ -101,12 +101,12 @@ function RecipeActions() {
 		searchRecipeAPI(recipeSearchAPIData, handleRecipeSearchAPIResponse, apiFailed);
 	};
 	// Show Snackbar
-	const showSnackbar = (message) => {
-		setSnackbarDetails({ open: true, message: message });
+	const showSnackbar = (message, severity) => {
+		setSnackbarDetails({ open: true, message: message, severity: severity });
 	};
 	// Close Snackbar
 	const closeSnackbar = () => {
-		setSnackbarDetails({ open: false, message: '' });
+		setSnackbarDetails({ open: false, message: '', severity: 'info' });
 	};
 	// Handle Page Update
 	const handlePageUpdate = (newPage) => {
@@ -200,7 +200,7 @@ function RecipeActions() {
 				recipe_code = rejectRecipeDetails['recipe_code'];
 				recipe_comments = rejectRecipeDetails['recipe_comments'];
 				if (!validateText(recipe_comments)) {
-					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`);
+					showSnackbar(`${recipe_comments} is an invalid comment. Please check!`, 'warning');
 				} else {
 					setRejectRecipeDetails((prevState) => ({ ...prevState, rejectingRecipe: true }));
 					setRejectRecipeAPIData((prevState) => ({
@@ -256,7 +256,7 @@ function RecipeActions() {
 		} else {
 			// Incase of failure, recipeList should be set to null array
 			setRecipeList([]);
-			showSnackbar('Something went wrong. Please try again!');
+			showSnackbar('Something went wrong. Please try again!', 'error');
 		}
 		setIsSearching(false);
 	};
@@ -291,7 +291,7 @@ function RecipeActions() {
 			} else {
 				searchRecipies();
 			}
-			showSnackbar(message);
+			showSnackbar(message, 'success');
 		} else {
 			awsAPIFailed(response);
 		}
@@ -308,7 +308,7 @@ function RecipeActions() {
 			} else {
 				searchRecipies();
 			}
-			showSnackbar(message);
+			showSnackbar(message, 'success');
 		} else {
 			awsAPIFailed(response);
 		}
@@ -320,9 +320,9 @@ function RecipeActions() {
 		// Checking for timeout
 		let errorMessage = error.data.errorMessage ? error.data.errorMessage : '';
 		if (errorMessage.includes('timed out')) {
-			showSnackbar('It took too long to respond. Please try again!');
+			showSnackbar('It took too long to respond. Please try again!', 'error');
 		} else {
-			showSnackbar('Something went wrong. Please try again!');
+			showSnackbar('Something went wrong. Please try again!', 'error');
 		}
 	};
 
@@ -333,7 +333,7 @@ function RecipeActions() {
 			message = 'It took too long to respond. Please try again!';
 		}
 		setIsSearching(false);
-		showSnackbar(message);
+		showSnackbar(message, 'error');
 	};
 
 	return (
