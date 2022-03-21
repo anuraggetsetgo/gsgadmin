@@ -53,11 +53,6 @@ function RecipeScreen(props) {
 				<Grid item xs={12}>
 					<StatusTabs currentTab={currentTab} onChange={handleStatusTabChange} />
 				</Grid>
-				{/* <Grid item xs={2} container justifyContent='center' alignItems='center'>
-					<Typography variant='h5' color={colors.grey}>
-						Recipies
-					</Typography>
-				</Grid> */}
 			</Grid>
 			{/* Recipies */}
 			<Grid container style={{ height: '70vh', padding: '10px' }}>
