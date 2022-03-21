@@ -45,6 +45,7 @@ function IngredientScreens(props) {
 		snackbarDetails,
 		closeSnackbar,
 	} = props;
+
 	return (
 		<Grid container direction='column' justifyContent='flex-start' alignItems='center' style={{ height: '85vh' }}>
 			{/* Tabs */}

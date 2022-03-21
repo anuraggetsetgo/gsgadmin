@@ -1,0 +1,15 @@
+/*
+Just to make the scrollbar thinner 
+*/
+
+::-webkit-scrollbar {
+	width: 5px;
+	border-radius: 50%;
+}
+
+::-webkit-scrollbar-thumb {
+	background: rgb(201, 201, 201);
+}
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}

@@ -24,7 +24,6 @@ function IngredientPreview(props) {
 	const { open, isLoading, onClose, name, protein, fat, carbs, alcohol, fibre, calories, quantity, unit, comments } =
 		props;
 	// Extracting the data to render
-
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth={true} maxWidth={'lg'}>
 			<DialogTitle>

@@ -7,15 +7,19 @@ import Config from '../Utilities/config';
 import { validateText } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
 import { searchRecipeAPI, fetchRecipeAPI, approveRecipeAPI, rejectRecipeAPI } from '../GSGAPI/AdminToolAPIs';
+import { Message } from '@mui/icons-material';
 
 function RecipeActions() {
 	// -----------
 	// CONFIG DATA
 	// -----------
 	const recipe_count = Config.recipe_count;
+	const defaultErrorMessage = Config.defaultErrorMessage;
 	// ----------
 	// USE STATES
 	// ----------
+	// Current Tab
+	const [currentTab, setCurrentTab] = useState('0');
 	// Recipe Search API Data
 	const [recipeSearchAPIData, setRecipeSearchAPIData] = useState({
 		count: recipe_count,
@@ -106,7 +110,7 @@ function RecipeActions() {
 	};
 	// Close Snackbar
 	const closeSnackbar = () => {
-		setSnackbarDetails({ open: false, message: '', severity: 'info' });
+		setSnackbarDetails({ open: false, message: '' });
 	};
 	// Handle Page Update
 	const handlePageUpdate = (newPage) => {
@@ -115,9 +119,10 @@ function RecipeActions() {
 	};
 	// Handle Recipe Preview
 	const handleRecipePreviewActions = (action, ...additionalData) => {
-		let recipe_code = additionalData[0];
+		let recipe_code;
 		switch (action) {
 			case 'open-preview':
+				recipe_code = additionalData[0];
 				setFetchRecipeAPIData({ code: recipe_code });
 				setRecipePreviewDetails((prevState) => ({ ...prevState, open: true, isLoading: true }));
 				break;
@@ -126,7 +131,7 @@ function RecipeActions() {
 					...prevState,
 					open: false,
 					isLoading: true,
-					re: {},
+					recipe: {},
 					mappedIngredients: [],
 				}));
 				break;
@@ -248,6 +253,7 @@ function RecipeActions() {
 	// Recipies Search API RESPONSE
 	const handleRecipeSearchAPIResponse = (response) => {
 		if (response.data.success) {
+			setCurrentTab(String(recipeSearchAPIData.status));
 			setRecipeList(response.data.data.data);
 			setPaginationDetails((prevState) => ({
 				...prevState,
@@ -256,7 +262,7 @@ function RecipeActions() {
 		} else {
 			// Incase of failure, recipeList should be set to null array
 			setRecipeList([]);
-			showSnackbar('Something went wrong. Please try again!', 'error');
+			showSnackbar(defaultErrorMessage, 'error');
 		}
 		setIsSearching(false);
 	};
@@ -322,17 +328,22 @@ function RecipeActions() {
 		if (errorMessage.includes('timed out')) {
 			showSnackbar('It took too long to respond. Please try again!', 'error');
 		} else {
-			showSnackbar('Something went wrong. Please try again!', 'error');
+			showSnackbar(defaultErrorMessage, 'error');
 		}
 	};
 
 	// API FAILED
 	const apiFailed = (error) => {
-		let message = error.message ? error.message : 'Something went wrong. Please try again!';
+		let message = defaultErrorMessage;
 		if (error.message.includes('timeout')) {
 			message = 'It took too long to respond. Please try again!';
 		}
+		// API could be failed due to any reson so let's reset all the API states
 		setIsSearching(false);
+		handleRecipeRejectActions('close-reject-dialog');
+		handleRecipeApproveActions('close-approve-dialog');
+		handleRecipePreviewActions('close-preview');
+		// Showing a default error message
 		showSnackbar(message, 'error');
 	};
 
@@ -343,7 +354,7 @@ function RecipeActions() {
 			// Seaching List
 			isSearching={isSearching}
 			// Tabs
-			currentTab={String(recipeSearchAPIData.status)}
+			currentTab={currentTab}
 			handleStatusTabChange={handleStatusTabChange}
 			// Paginations
 			paginationDetails={paginationDetails}

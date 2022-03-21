@@ -19,10 +19,13 @@ function IngredientActions() {
 	// CONFIG DATA
 	// -----------
 	const ingredient_count = Config.ingredient_count;
+	const defaultErrorMessage = Config.defaultErrorMessage;
 
 	// ----------
 	// USE STATES
 	// ----------
+	// CURRENT TAB
+	const [currentTab, setCurrentTab] = useState('0');
 	// Ingredient Search API Data
 	const [ingredientsSearchAPIData, setIngredientsSearchAPIData] = useState({
 		count: ingredient_count,
@@ -112,7 +115,7 @@ function IngredientActions() {
 	};
 	// Close Snackbar
 	const closeSnackbar = () => {
-		setSnackbarDetails({ open: false, message: '', severity: 'info' });
+		setSnackbarDetails({ open: false, message: '' });
 	};
 	// Handle Page Update
 	const handlePageUpdate = (newPage) => {
@@ -121,9 +124,11 @@ function IngredientActions() {
 	};
 	// Handle Ingredient Preview
 	const handleIngredientPreviewActions = (action, ...additionalData) => {
-		let ingredient_code = additionalData[0];
+		let ingredient_code;
 		switch (action) {
 			case 'open-preview':
+				ingredient_code = additionalData[0];
+
 				setFetchIngredientAPIData({ code: ingredient_code });
 				setIngredientPreviewDetails((prevState) => ({ ...prevState, open: true, isLoading: true }));
 				break;
@@ -246,6 +251,7 @@ function IngredientActions() {
 	// Ingredints Search API RESPONSE
 	const handleIngredientSearchAPIResponse = (response) => {
 		if (response.data.success) {
+			setCurrentTab(String(ingredientsSearchAPIData.status));
 			setIngredientsList(response.data.data.data);
 			setPaginationDetails((prevState) => ({
 				...prevState,
@@ -254,14 +260,18 @@ function IngredientActions() {
 		} else {
 			// Incase of failure, ingredientList should be set to null array
 			setIngredientsList([]);
-			showSnackbar('Something went wrong. Please try again!', 'error');
+			showSnackbar(defaultErrorMessage, 'error');
 		}
 		setIsSearching(false);
 	};
 	// Fetch Ingredient API Response
 	const handleFetchIngredientAPIRespone = (response) => {
 		if (response.data.success) {
-			setIngredientPreviewDetails((prevState) => ({ ...prevState, isLoading: false, ingredient: response.data.data }));
+			setIngredientPreviewDetails((prevState) => ({
+				...prevState,
+				isLoading: false,
+				ingredient: response.data.data[0],
+			}));
 		} else {
 			setIngredientPreviewDetails((prevState) => ({ ...prevState, open: false, isLoading: false, ingredient: {} }));
 
@@ -309,16 +319,22 @@ function IngredientActions() {
 		if (errorMessage.includes('timed out')) {
 			showSnackbar('It took too long to respond. Please try again!', 'error');
 		} else {
-			showSnackbar('Something went wrong. Please try again!', 'error');
+			showSnackbar(defaultErrorMessage, 'error');
 		}
 	};
 
 	// API FAILED
 	const apiFailed = (error) => {
-		let message = error.message ? error.message : 'Something went wrong. Please try again!';
+		let message = defaultErrorMessage;
 		if (error.message.includes('timeout')) {
 			message = 'It took too long to respond. Please try again!';
 		}
+		// Reseting all the API calls
+		setIsSearching(false);
+		handleIngredientPreviewActions('close-preview');
+		handleIngredientApproveActions('close-approve-dialog');
+		handleIngredientRejectActions('close-reject-dialog');
+		// Showing  a default message for API failed
 		showSnackbar(message, 'error');
 	};
 	return (
@@ -328,7 +344,7 @@ function IngredientActions() {
 			// Seaching List
 			isSearching={isSearching}
 			// Tabs
-			currentTab={String(ingredientsSearchAPIData.status)}
+			currentTab={currentTab}
 			handleStatusTabChange={handleStatusTabChange}
 			// Paginations
 			paginationDetails={paginationDetails}
