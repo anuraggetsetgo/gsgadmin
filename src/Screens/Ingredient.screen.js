@@ -73,11 +73,10 @@ function IngredientScreens(props) {
 							spacing={1}
 							style={{ height: '75vh' }}>
 							{ingredientsList.map((ingredient, index) => (
-								<Grid item xs={3} key={`${ingredient.ingredient_name}-${index}`}>
+								<Grid item xs={4} key={`${ingredient.ingredient_name}-${index}`}>
 									{currentTab === '0' ? (
 										// Pending
 										<PendingFoodCard
-											withImage={false}
 											image={''}
 											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
@@ -88,7 +87,6 @@ function IngredientScreens(props) {
 									) : currentTab === '1' ? (
 										// Pending
 										<ApprovedFoodCard
-											withImage={false}
 											image={''}
 											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
@@ -100,7 +98,6 @@ function IngredientScreens(props) {
 										// Rejected
 										<RejectedFoodCard
 											image={''}
-											withImage={false}
 											code={ingredient.ingredient_code}
 											comments={ingredient.ingredients_comments}
 											name={ingredient.ingredient_name}
@@ -168,6 +165,11 @@ function IngredientScreens(props) {
 				comments={
 					ingredientPreviewDetails['ingredient']['ingredients_comments']
 						? ingredientPreviewDetails['ingredient']['ingredients_comments']
+						: ''
+				}
+				image={
+					ingredientPreviewDetails['ingredient']['ingredients_image']
+						? ingredientPreviewDetails['ingredient']['ingredients_image']
 						: ''
 				}
 			/>

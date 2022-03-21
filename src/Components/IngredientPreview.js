@@ -18,12 +18,27 @@ import {
 // Colors and Styles
 import { Styles } from '../app-styles';
 import { colors } from '../Utilities/services';
-const Tooltip2 = React.forwardRef((props, ref) => <Tooltip {...props} ref={ref} />);
-
+// CONFIG
+import Config from '../Utilities/config';
 function IngredientPreview(props) {
-	const { open, isLoading, onClose, name, protein, fat, carbs, alcohol, fibre, calories, quantity, unit, comments } =
-		props;
-	// Extracting the data to render
+	const {
+		open,
+		isLoading,
+		onClose,
+		name,
+		protein,
+		fat,
+		carbs,
+		alcohol,
+		fibre,
+		calories,
+		quantity,
+		unit,
+		comments,
+		image,
+	} = props;
+	// Config
+	const placeholderImage = Config.placeholderImage;
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth={true} maxWidth={'lg'}>
 			<DialogTitle>
@@ -35,14 +50,11 @@ function IngredientPreview(props) {
 								{name}
 							</Typography>
 						</Grid>
-						{/* <Grid item style={{ ...Styles.padding5 }}>
-							<Typography>{`${quantity} ${unit}`}</Typography>
-						</Grid> */}
 					</Grid>
 					<Grid item xs={4} container justifyContent={'flex-end'} alignItems={'center'}>
-						<Tooltip2 title='Close preview'>
+						<Tooltip title='Close preview'>
 							<CloseIcon onClick={onClose} />
-						</Tooltip2>
+						</Tooltip>
 					</Grid>
 				</Grid>
 			</DialogTitle>
@@ -56,9 +68,19 @@ function IngredientPreview(props) {
 						loadingText={'Loading ingredient...'}
 					/>
 				) : (
-					<Grid container direction='column' justifyContent={'flex-start'} alignItems={'stretch'}>
+					<Grid container direction='row' alignItems={'center'}>
+						<Grid
+							item
+							xs={4}
+							container
+							justifyContent={'center'}
+							alignItems={'center'}
+							style={{ height: '250px', width: '300px', ...Styles.borderRadius2 }}>
+							<img src={image !== '' ? image : placeholderImage} alt='Ingredient Image' height='100%' width='100%' />
+						</Grid>
+
 						{/* Macros */}
-						<Grid container direction={'row'} justifyContent={'space-evenly'} alignItems={'center'}>
+						<Grid item xs={8} container direction={'row'} justifyContent={'space-evenly'} alignItems={'center'}>
 							<Grid item>
 								<Macros icon={faEgg} title={'Protein'} value={`${protein} gms`} color={colors.primary} />
 							</Grid>

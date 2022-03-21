@@ -14,7 +14,7 @@ const config = {
 	// FOOD TYPES
 	type: { 1: 'Veg', 2: 'Non-veg', 3: 'Egg', 4: 'Jain', 5: 'Vegan' },
 	// ITEMS COUNTS
-	ingredient_count: 12,
+	ingredient_count: 9,
 	recipe_count: 9,
 	// DRAWER MENU
 	menuList: ['Admin', 'Recipes', 'Ingredients'],
@@ -28,6 +28,8 @@ const config = {
 	generalTextRegex: /^[a-zA-Z0-9 !@#$%^&*()_=*+.->-<,;:|'"]*$/,
 	// default error message
 	defaultErrorMessage: 'Something went wrong. Please try again!',
+	// Placeholder Image
+	placeholderImage: 'http://generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg',
 };
 
 export default config;

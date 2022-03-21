@@ -1,8 +1,14 @@
 import React from 'react';
 import { Grid, Button, Typography, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
 import { Styles } from '../app-styles';
+
+// CONFIG
+import Config from '../Utilities/config';
 function RejectedFoodCard(props) {
-	const { withImage, image, code, comments, name, firstname, lastname, distinguishCardClicks } = props;
+	const { image, code, comments, name, firstname, lastname, distinguishCardClicks } = props;
+	// Config
+	const placeholderImage = Config.placeholderImage;
+
 	return (
 		<Card
 			id='card'
@@ -12,29 +18,17 @@ function RejectedFoodCard(props) {
 			}}>
 			{/* <CardActionArea sx={{ height: 150 }}> */}
 			<Grid container justifyContent='space-between' alignItems={'flex-start'} style={{ height: '150px' }}>
-				{withImage ? (
-					<Grid item xs={4.5}>
-						{image !== '' ? (
-							<CardMedia component='img' height='150' image={image} alt='green iguana' />
-						) : (
-							<CardMedia
-								component='img'
-								height='150'
-								image={'http://generationsforpeace.org/wp-content/uploads/2018/03/empty.jpg'}
-								alt='green iguana'
-							/>
-						)}
-					</Grid>
-				) : null}
-
+				<Grid item xs={4.5}>
+					<CardMedia component='img' height='150' image={image !== '' ? image : placeholderImage} alt='green iguana' />
+				</Grid>
 				<Grid
 					item
-					xs={withImage ? 7 : 12}
+					xs={7}
 					container
 					direction='column'
 					justifyContent='flex-start'
 					alignItems='center'
-					style={{ padding: withImage ? '5px' : '15px' }}>
+					style={{ padding: '5px' }}>
 					<Grid container>
 						<Grid container alignItems='flex-start' style={{ ...Styles.marginTop10 }}>
 							<Grid item xs={9}>
