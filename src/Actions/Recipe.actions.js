@@ -253,6 +253,7 @@ function RecipeActions() {
 	// Recipies Search API RESPONSE
 	const handleRecipeSearchAPIResponse = (response) => {
 		if (response.data.success) {
+			setIsSearching(false);
 			setCurrentTab(String(recipeSearchAPIData.status));
 			setRecipeList(response.data.data.data);
 			setPaginationDetails((prevState) => ({
@@ -260,11 +261,8 @@ function RecipeActions() {
 				count: Math.ceil(response.data.data.count / recipe_count),
 			}));
 		} else {
-			// Incase of failure, recipeList should be set to null array
-			setRecipeList([]);
-			showSnackbar(defaultErrorMessage, 'error');
+			awsAPIFailed(response);
 		}
-		setIsSearching(false);
 	};
 	// Fetch Recipe API Response
 	const handleFetchRecipeAPIRespone = (response) => {
@@ -276,16 +274,8 @@ function RecipeActions() {
 				mappedIngredients: response.data.data.mappedIngredients,
 			}));
 		} else {
-			setRecipePreviewDetails((prevState) => ({
-				...prevState,
-				open: false,
-				isLoading: false,
-				recipe: {},
-				mappedIngredients: [],
-			}));
 			awsAPIFailed(response);
 		}
-		setFetchRecipeAPIData({ code: '' });
 	};
 	// APPROVE Recipe API RESPONSE
 	const handleApproveRecipeAPIResponse = (response) => {
@@ -330,19 +320,20 @@ function RecipeActions() {
 		} else {
 			showSnackbar(defaultErrorMessage, 'error');
 		}
+		// API could be failed due to any reson so let's reset all concerned the API states
+		setIsSearching(false);
+		recipePreviewDetails.open ? handleRecipePreviewActions('close-preview') : null;
 	};
 
 	// API FAILED
 	const apiFailed = (error) => {
-		let message = defaultErrorMessage;
+		let message = error.response.data.message ? error.response.data.message : defaultErrorMessage;
 		if (error.message.includes('timeout')) {
 			message = 'It took too long to respond. Please try again!';
 		}
-		// API could be failed due to any reson so let's reset all the API states
+		// API could be failed due to any reson so let's reset all concerned the API states
 		setIsSearching(false);
-		handleRecipeRejectActions('close-reject-dialog');
-		handleRecipeApproveActions('close-approve-dialog');
-		handleRecipePreviewActions('close-preview');
+		recipePreviewDetails.open ? handleRecipePreviewActions('close-preview') : null;
 		// Showing a default error message
 		showSnackbar(message, 'error');
 	};

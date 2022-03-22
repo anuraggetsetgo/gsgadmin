@@ -12,11 +12,10 @@ function RejectedFoodCard(props) {
 	return (
 		<Card
 			id='card'
-			sx={{ ...Styles.border1, ...Styles.borderLightGrey, ...Styles.borderRadius2, height: 150 }}
+			sx={{ height: 150 }}
 			onClick={(e) => {
 				distinguishCardClicks(e.target.id, code);
 			}}>
-			{/* <CardActionArea sx={{ height: 150 }}> */}
 			<Grid container justifyContent='space-between' alignItems={'flex-start'} style={{ height: '150px' }}>
 				<Grid item xs={4.5}>
 					<CardMedia component='img' height='150' image={image !== '' ? image : placeholderImage} alt='green iguana' />
@@ -62,7 +61,6 @@ function RejectedFoodCard(props) {
 					</Grid>
 				</Grid>
 			</Grid>
-			{/* </CardActionArea> */}
 		</Card>
 	);
 }

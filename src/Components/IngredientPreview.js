@@ -39,6 +39,7 @@ function IngredientPreview(props) {
 	} = props;
 	// Config
 	const placeholderImage = Config.placeholderImage;
+
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth={true} maxWidth={'lg'}>
 			<DialogTitle>
@@ -68,7 +69,7 @@ function IngredientPreview(props) {
 						loadingText={'Loading ingredient...'}
 					/>
 				) : (
-					<Grid container direction='row' alignItems={'center'}>
+					<Grid container direction='row' alignItems={'center'} style={{ minHeight: '250px' }}>
 						<Grid
 							item
 							xs={4}
@@ -80,54 +81,66 @@ function IngredientPreview(props) {
 						</Grid>
 
 						{/* Macros */}
-						<Grid item xs={8} container direction={'row'} justifyContent={'space-evenly'} alignItems={'center'}>
-							<Grid item>
-								<Macros icon={faEgg} title={'Protein'} value={`${protein} gms`} color={colors.primary} />
+						<Grid
+							item
+							xs={8}
+							container
+							direction={'column'}
+							justifyContent={'space-evenly'}
+							alignItems={'center'}
+							style={{ ...Styles.padding10, minHeight: '250px' }}>
+							<Grid item container direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+								<Grid item>
+									<Macros icon={faEgg} title={'Protein'} value={`${protein} gms`} color={colors.primary} />
+								</Grid>
+								<Grid item>
+									<Macros icon={faCheese} title={'Fat'} value={`${fat} gms`} color={colors.primary} />
+								</Grid>
+								<Grid item>
+									<Macros icon={faHamburger} title={'Carbs'} value={`${carbs} gms`} color={colors.primary} />
+								</Grid>
+								<Grid item>
+									<Macros icon={faWineGlass} title={'Alcohol'} value={`${alcohol} gms`} color={colors.primary} />
+								</Grid>
+								<Grid item>
+									<Macros icon={faAppleAlt} title={'Fibre'} value={`${fibre} gms`} color={colors.primary} />
+								</Grid>
+								<Grid item>
+									<Macros icon={faFire} title={'Calories'} value={`${calories} KCal`} color={colors.yellow} />
+								</Grid>
+								<Grid item>
+									<Macros
+										icon={faScaleBalanced}
+										title={'Quantity'}
+										value={`${quantity} ${unit}`}
+										color={colors.primary}
+									/>
+								</Grid>
 							</Grid>
-							<Grid item>
-								<Macros icon={faCheese} title={'Fat'} value={`${fat} gms`} color={colors.primary} />
-							</Grid>
-							<Grid item>
-								<Macros icon={faHamburger} title={'Carbs'} value={`${carbs} gms`} color={colors.primary} />
-							</Grid>
-							<Grid item>
-								<Macros icon={faWineGlass} title={'Alcohol'} value={`${alcohol} gms`} color={colors.primary} />
-							</Grid>
-							<Grid item>
-								<Macros icon={faAppleAlt} title={'Fibre'} value={`${fibre} gms`} color={colors.primary} />
-							</Grid>
-							<Grid item>
-								<Macros icon={faFire} title={'Calories'} value={`${calories} KCal`} color={colors.yellow} />
-							</Grid>
-							<Grid item>
-								<Macros
-									icon={faScaleBalanced}
-									title={'Quantity'}
-									value={`${quantity} ${unit}`}
-									color={colors.primary}
-								/>
-							</Grid>
+
+							<Divider />
+
+							{/* Comments */}
+							{comments.length > 0 ? (
+								<Grid
+									container
+									direction='column'
+									justifyContent={'flex-start'}
+									alignItems={'stretch'}
+									style={{ ...Styles.marginTop10.marginTop }}>
+									<Grid item>
+										<Typography variant='h6' color={'secondary'}>
+											Ingredient's comment
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Typography variant='body2' align='justify'>
+											{comments}
+										</Typography>
+									</Grid>
+								</Grid>
+							) : null}
 						</Grid>
-						{/* Comments */}
-						{comments.length > 0 ? (
-							<Grid
-								container
-								direction='column'
-								justifyContent={'flex-start'}
-								alignItems={'stretch'}
-								style={{ ...Styles.marginTop10 }}>
-								<Grid item>
-									<Typography variant='h6' color={'secondary'}>
-										Ingredient's comment
-									</Typography>
-								</Grid>
-								<Grid item>
-									<Typography variant='body2' align='justify'>
-										{comments}
-									</Typography>
-								</Grid>
-							</Grid>
-						) : null}
 					</Grid>
 				)}
 			</DialogContent>

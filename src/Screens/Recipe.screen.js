@@ -72,7 +72,7 @@ function RecipeScreen(props) {
 									{currentTab === '0' ? (
 										// Pending
 										<PendingFoodCard
-											image={recipe.recipe_image}
+											image={recipe.recipe_image ? recipe.recipe_image : ''}
 											code={recipe.recipe_code}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}
@@ -82,7 +82,7 @@ function RecipeScreen(props) {
 									) : currentTab === '1' ? (
 										// Pending
 										<ApprovedFoodCard
-											image={recipe.recipe_image}
+											image={recipe.recipe_image ? recipe.recipe_image : ''}
 											code={recipe.recipe_code}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}
@@ -92,7 +92,7 @@ function RecipeScreen(props) {
 									) : currentTab === '2' ? (
 										// Rejected
 										<RejectedFoodCard
-											image={recipe.recipe_image}
+											image={recipe.recipe_image ? recipe.recipe_image : ''}
 											code={recipe.recipe_code}
 											name={recipe.recipe_name}
 											firstname={recipe.firstname}

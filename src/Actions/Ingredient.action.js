@@ -251,6 +251,7 @@ function IngredientActions() {
 	// Ingredints Search API RESPONSE
 	const handleIngredientSearchAPIResponse = (response) => {
 		if (response.data.success) {
+			setIsSearching(false);
 			setCurrentTab(String(ingredientsSearchAPIData.status));
 			setIngredientsList(response.data.data.data);
 			setPaginationDetails((prevState) => ({
@@ -258,11 +259,8 @@ function IngredientActions() {
 				count: Math.ceil(response.data.data.count / ingredient_count),
 			}));
 		} else {
-			// Incase of failure, ingredientList should be set to null array
-			setIngredientsList([]);
-			showSnackbar(defaultErrorMessage, 'error');
+			awsAPIFailed(response);
 		}
-		setIsSearching(false);
 	};
 	// Fetch Ingredient API Response
 	const handleFetchIngredientAPIRespone = (response) => {
@@ -270,14 +268,11 @@ function IngredientActions() {
 			setIngredientPreviewDetails((prevState) => ({
 				...prevState,
 				isLoading: false,
-				ingredient: response.data.data[0],
+				ingredient: response.data.data,
 			}));
 		} else {
-			setIngredientPreviewDetails((prevState) => ({ ...prevState, open: false, isLoading: false, ingredient: {} }));
-
 			awsAPIFailed(response);
 		}
-		setFetchIngredientAPIData({ code: '' });
 	};
 	// APPROVE INGREDIENT API RESPONSE
 	const handleApproveIngredientAPIResponse = (response) => {
@@ -321,19 +316,20 @@ function IngredientActions() {
 		} else {
 			showSnackbar(defaultErrorMessage, 'error');
 		}
+		// Reseting all concerned the API calls
+		setIsSearching(false);
+		handleIngredientPreviewActions('close-preview');
 	};
 
 	// API FAILED
 	const apiFailed = (error) => {
-		let message = defaultErrorMessage;
+		let message = error.response.data.message ? error.response.data.message : defaultErrorMessage;
 		if (error.message.includes('timeout')) {
 			message = 'It took too long to respond. Please try again!';
 		}
-		// Reseting all the API calls
+		// Reseting all concerned the API calls
 		setIsSearching(false);
 		handleIngredientPreviewActions('close-preview');
-		handleIngredientApproveActions('close-approve-dialog');
-		handleIngredientRejectActions('close-reject-dialog');
 		// Showing  a default message for API failed
 		showSnackbar(message, 'error');
 	};

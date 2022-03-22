@@ -77,7 +77,7 @@ function IngredientScreens(props) {
 									{currentTab === '0' ? (
 										// Pending
 										<PendingFoodCard
-											image={''}
+											image={ingredient.ingredient_image ? ingredient.ingredient_image : ''}
 											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
@@ -87,7 +87,7 @@ function IngredientScreens(props) {
 									) : currentTab === '1' ? (
 										// Pending
 										<ApprovedFoodCard
-											image={''}
+											image={ingredient.ingredient_image ? ingredient.ingredient_image : ''}
 											code={ingredient.ingredient_code}
 											name={ingredient.ingredient_name}
 											firstname={ingredient.firstname}
@@ -97,7 +97,7 @@ function IngredientScreens(props) {
 									) : currentTab === '2' ? (
 										// Rejected
 										<RejectedFoodCard
-											image={''}
+											image={ingredient.ingredient_image ? ingredient.ingredient_image : ''}
 											code={ingredient.ingredient_code}
 											comments={ingredient.ingredients_comments}
 											name={ingredient.ingredient_name}
@@ -146,7 +146,7 @@ function IngredientScreens(props) {
 						: 0
 				}
 				alcohol={
-					ingredientPreviewDetails['ingredient']['calories'] ? ingredientPreviewDetails['ingredient']['calories'] : 0
+					ingredientPreviewDetails['ingredient']['alcohol'] ? ingredientPreviewDetails['ingredient']['alcohol'] : 0
 				}
 				fibre={ingredientPreviewDetails['ingredient']['fibre'] ? ingredientPreviewDetails['ingredient']['fibre'] : 0}
 				calories={
@@ -168,8 +168,8 @@ function IngredientScreens(props) {
 						: ''
 				}
 				image={
-					ingredientPreviewDetails['ingredient']['ingredients_image']
-						? ingredientPreviewDetails['ingredient']['ingredients_image']
+					ingredientPreviewDetails['ingredient']['ingredient_image']
+						? ingredientPreviewDetails['ingredient']['ingredient_image']
 						: ''
 				}
 			/>
