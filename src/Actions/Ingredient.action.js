@@ -20,7 +20,7 @@ function IngredientActions() {
 	// -----------
 	const ingredient_count = Config.ingredient_count;
 	const defaultErrorMessage = Config.defaultErrorMessage;
-
+	const defaultTimeoutErrorMessage = Config.defaultTimeoutErrorMessage;
 	// ----------
 	// USE STATES
 	// ----------
@@ -278,6 +278,8 @@ function IngredientActions() {
 	const handleApproveIngredientAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
 		if (response.data.success) {
+			handleIngredientApproveActions('close-approve-dialog');
+
 			if (ingredientsList.length === 1) {
 				// this means it was the last ingredient on that page
 				handlePageUpdate(1);
@@ -288,13 +290,14 @@ function IngredientActions() {
 		} else {
 			awsAPIFailed(response);
 		}
-		handleIngredientApproveActions('close-approve-dialog');
 	};
 
 	// REJECT INGREDIENT API RESPONSE
 	const handleRejectIngredientAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
 		if (response.data.success) {
+			handleIngredientRejectActions('close-reject-dialog');
+
 			if (ingredientsList.length === 1) {
 				// this means it was the last ingredient on that page
 				handlePageUpdate(1);
@@ -305,31 +308,34 @@ function IngredientActions() {
 		} else {
 			awsAPIFailed(response);
 		}
-		handleIngredientRejectActions('close-reject-dialog');
 	};
 	// AWS API FAILED
 	const awsAPIFailed = (error) => {
 		// Checking for timeout
 		let errorMessage = error.data.errorMessage ? error.data.errorMessage : '';
 		if (errorMessage.includes('timed out')) {
-			showSnackbar('It took too long to respond. Please try again!', 'error');
+			showSnackbar(defaultTimeoutErrorMessage, 'error');
 		} else {
 			showSnackbar(defaultErrorMessage, 'error');
 		}
 		// Reseting all concerned the API calls
 		setIsSearching(false);
 		handleIngredientPreviewActions('close-preview');
+		handleIngredientApproveActions('close-approve-dialog');
+		handleIngredientRejectActions('close-reject-dialog');
 	};
 
 	// API FAILED
 	const apiFailed = (error) => {
 		let message = error.response.data.message ? error.response.data.message : defaultErrorMessage;
 		if (error.message.includes('timeout')) {
-			message = 'It took too long to respond. Please try again!';
+			message = defaultTimeoutErrorMessage;
 		}
 		// Reseting all concerned the API calls
 		setIsSearching(false);
 		handleIngredientPreviewActions('close-preview');
+		handleIngredientApproveActions('close-approve-dialog');
+		handleIngredientRejectActions('close-reject-dialog');
 		// Showing  a default message for API failed
 		showSnackbar(message, 'error');
 	};

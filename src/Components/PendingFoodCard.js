@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Button, Typography, Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
+import { Grid, Button, Typography, Card, CardMedia } from '@mui/material';
 import { Styles } from '../app-styles';
 // CONFIG
 import Config from '../Utilities/config';

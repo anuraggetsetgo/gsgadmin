@@ -1,6 +1,6 @@
 import React from 'react';
 // MUI
-import { Card, Grid, IconButton, Link, Tooltip, Typography } from '@mui/material';
+import { Card, Grid, IconButton, Link, Tooltip } from '@mui/material';
 // STYLES AND COLORS
 import { Styles } from '../app-styles';
 import { colors } from '../Utilities/services';

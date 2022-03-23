@@ -7,7 +7,6 @@ import Config from '../Utilities/config';
 import { validateText } from '../Utilities/utilFunctions';
 // CALL API FUNCTIONS
 import { searchRecipeAPI, fetchRecipeAPI, approveRecipeAPI, rejectRecipeAPI } from '../GSGAPI/AdminToolAPIs';
-import { Message } from '@mui/icons-material';
 
 function RecipeActions() {
 	// -----------
@@ -15,6 +14,7 @@ function RecipeActions() {
 	// -----------
 	const recipe_count = Config.recipe_count;
 	const defaultErrorMessage = Config.defaultErrorMessage;
+	const defaultTimeoutErrorMessage = Config.defaultTimeoutErrorMessage;
 	// ----------
 	// USE STATES
 	// ----------
@@ -281,6 +281,8 @@ function RecipeActions() {
 	const handleApproveRecipeAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
 		if (response.data.success) {
+			handleRecipeApproveActions('close-approve-dialog');
+
 			if (recipeList.length === 1) {
 				// this means it was the last recipe on that page
 				handlePageUpdate(1);
@@ -291,13 +293,14 @@ function RecipeActions() {
 		} else {
 			awsAPIFailed(response);
 		}
-		handleRecipeApproveActions('close-approve-dialog');
 	};
 
 	// REJECT Recipe API RESPONSE
 	const handleRejectRecipeAPIResponse = (response) => {
 		let message = response.data.message ? response.data.message : '';
 		if (response.data.success) {
+			handleRecipeRejectActions('close-reject-dialog');
+
 			if (recipeList.length === 1) {
 				// this means it was the last recipe on that page
 				handlePageUpdate(1);
@@ -308,7 +311,6 @@ function RecipeActions() {
 		} else {
 			awsAPIFailed(response);
 		}
-		handleRecipeRejectActions('close-reject-dialog');
 	};
 
 	// AWS API FAILED
@@ -316,24 +318,29 @@ function RecipeActions() {
 		// Checking for timeout
 		let errorMessage = error.data.errorMessage ? error.data.errorMessage : '';
 		if (errorMessage.includes('timed out')) {
-			showSnackbar('It took too long to respond. Please try again!', 'error');
+			showSnackbar(defaultTimeoutErrorMessage, 'error');
 		} else {
 			showSnackbar(defaultErrorMessage, 'error');
 		}
 		// API could be failed due to any reson so let's reset all concerned the API states
 		setIsSearching(false);
-		recipePreviewDetails.open ? handleRecipePreviewActions('close-preview') : null;
+		handleRecipePreviewActions('close-preview');
+		handleRecipeApproveActions('close-approve-dialog');
+		handleRecipeRejectActions('close-reject-dialog');
 	};
 
 	// API FAILED
 	const apiFailed = (error) => {
 		let message = error.response.data.message ? error.response.data.message : defaultErrorMessage;
 		if (error.message.includes('timeout')) {
-			message = 'It took too long to respond. Please try again!';
+			message = defaultTimeoutErrorMessage;
 		}
 		// API could be failed due to any reson so let's reset all concerned the API states
 		setIsSearching(false);
-		recipePreviewDetails.open ? handleRecipePreviewActions('close-preview') : null;
+		handleRecipePreviewActions('close-preview');
+		handleRecipeApproveActions('close-approve-dialog');
+		handleRecipeRejectActions('close-reject-dialog');
+
 		// Showing a default error message
 		showSnackbar(message, 'error');
 	};

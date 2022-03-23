@@ -1,6 +1,6 @@
 import React from 'react';
 // MUI COMPONENTS
-import { Dialog, DialogTitle, DialogContent, Grid, Typography, Tooltip, IconButton, Divider } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Grid, Typography, Tooltip, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 // COMPONENTS
 import Macros from './Macros';

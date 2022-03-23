@@ -4,7 +4,7 @@ import { Breadcrumbs, Link, Typography } from '@mui/material';
 
 function AdminBreadCrumbs(props) {
 	// De-structuring props
-	const { currentView, goToAdmin, color } = props;
+	const { currentView, goToAdmin } = props;
 	return (
 		<Breadcrumbs>
 			<Link underline='hover' variant='h5' color='primary' onClick={goToAdmin}>

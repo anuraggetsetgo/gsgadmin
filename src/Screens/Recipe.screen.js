@@ -14,7 +14,6 @@ import ApproveDialog from '../Components/ApproveDialog';
 import RejectDialog from '../Components/RejectDialog';
 
 // STYLES & COLORS
-import { Styles } from '../app-styles';
 import { colors } from '../Utilities/services';
 
 function RecipeScreen(props) {

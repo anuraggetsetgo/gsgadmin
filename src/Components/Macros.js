@@ -2,9 +2,6 @@ import React from 'react';
 // Font Awesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Grid, Typography } from '@mui/material';
-// Colors and Styles
-import { Styles } from '../app-styles';
-import { colors } from '../Utilities/services';
 
 function Macros(props) {
 	const { icon, title, value, color } = props;

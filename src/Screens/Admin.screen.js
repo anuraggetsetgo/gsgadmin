@@ -45,17 +45,6 @@ function AdminScreen(props) {
 							}}
 						/>
 					</Grid>
-					{/* Admin Button */}
-					{/* <Grid item>
-						<Button
-							variant='contained'
-							color='primary'
-							onClick={() => {
-								updateCurrentView('Admin');
-							}}>
-							Admin
-						</Button>
-					</Grid> */}
 				</Grid>
 			</Grid>
 
